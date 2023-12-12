@@ -1,0 +1,237 @@
+---
+title: Introduction au SQL avec R
+format:
+  lille-univ-revealjs:
+    css: custom.css
+
+author: Arthur Bréant
+date: last-modified
+---
+
+# Que va-t-on faire ?
+
+## Les objectifs
+
+Les objectifs de ce cours sont de vous permettre de :
+
+> - Apprendre le SQL
+> - Utiliser SQL dans l'environnement R
+> - Exploiter des BDD relationnelles
+> -  Vous familiarisez avec R
+> - Et plus si affinités 😉 
+
+# Faisons les présentations !
+
+## {.center-section}
+
+:::: {layout="[ 33, 33, 35 ]"}
+
+::: {#first-column}
+Mars 2016 à Déc. 2017
+
+![](www/images/frizbiz.png){fig-align="center"}
+:::
+
+::: {#second-column}
+Janv. 2018 à Sept. 2021
+
+![](www/images/critizr.png){fig-align="center"}
+:::
+
+::: {#third-column}
+Octobre 2021 à aujourd'hui
+
+![](www/images/thinkr.png){fig-align="center"}
+:::
+
+::::
+
+## À vous 
+
+> - Qui êtes-vous ? 
+> - Avez-vous déjà pratiqué le SQL ?
+> - Vers quel métier souhaitez-vous vous orienter ? 
+> - Quelles sont vos attentes de ce cours ?
+
+##
+
+![](www/images/questions.png){fig-align="center"}
+
+# Le SQL, c'est quoi ?
+
+## Structured Query Language
+
+Le SQL est un langage informatique servant à exploiter des **bases de données relationnelles**.
+
+Le SQL permet notamment de **rechercher, d'ajouter, de modifier ou de supprimer** des données.
+
+Créé en 1974, le SQL est un langage de **requêtes** pour les bases de données.
+
+## La composition du SQL 
+
+Il existe plusieurs formes d'instructions du langage SQL : 
+
+- Contrôle de données : _Permettent de gérer les autorisations d'accès aux données._
+  
+- Contrôle des transactions : _Permettent de confirmer ou annuler une transaction._
+
+- **Définition des données** : _Permettent de décrire et de modifier la structure et les caractéristiques de base._
+
+- **Manipulation des données** : _Permettent de manipuler, ajouter ou supprimer des données._
+
+**Utiliser le SQL permet de manipuler, d'extraire et de regrouper les données dans une base afin de les rendre exploitables dans R.**
+
+## Concrètement, comment cela s'articule ?
+
+## 
+
+![](www/images/SQLtoR.png){fig-align="center"}
+
+## Une base de données ? 
+
+Une base de données est un **ensemble de données stockées** qui permet de **sauvegarder** des informations ou une activité. Ces informations sont stockées dans plusieurs **tables** (ou tableaux).
+
+C'est l'élément central d'un **système d'information**. La base de données contient les **informations clients** d'une entreprise.
+
+Le fichier client est la **valeur d'une entreprise**, c'est un _actif immatériel_. 
+
+Les données sauvegardées dans les tables sont **consultables** et **exploitables**.
+
+## Mais c'est quoi une table ?
+
+Une table est tableau qui contient des données. Dans une table, une colonne contient une **information** (_des noms, des prénoms, des dates, etc._). Les lignes elles, contiennent des **enregistrements** (_individu 1, individu2, etc._).
+
+Une table regroupe des informations sur un **domaine bien précis** ! 
+
+Tout ce qui concerne les clients est enregistré dans une table <font color="#c7254e">`client`</font>, des coordonnées dans une table <font color="#c7254e">`adresse`</font>.
+
+## Primary Key (clé primaire)
+
+Chaque table contient un *identifiant*. Contenu dans une colonne, cet identifiant est **unique** ! Un identifiant peut s'auto-incrémenter ou bien être un élément unique (_email, numéro de sécurité sociale_)
+
+Cet identifiant permet d'avoir une table bien indexée, ce qui facilite notamment les recherches. Mais surtout, cette _clé primaire_ permet de **relier les tables entre elles** !
+
+## Foreign Key (clé étrangère)
+
+On parle d'une base de données relationnelle quand il existe des **relations** entre les tables. 
+
+Par exemple, nous pouvons trouver des informations relatives à une ligne de la table <font color="#c7254e">`client`</font> dans celle de la table <font color="#c7254e">`adresse`</font>. En somme, trouver l'adresse d'un client. 
+
+Ce lien existe grâce à la relation entre la **clé primaire** et la **clé étrangère**. 
+
+La clé étrangère est une colonne d'une table (_adresse_) qui fait **référence** à la colonne, clé primaire, d'une autre table (_client_). 
+
+## 
+
+![](www/images/table.png){fig-align="center"}
+
+## 
+
+![](www/images/tables.png){fig-align="center"}
+
+## Système de Gestion de Base de Données
+
+Une table stocke des données. 
+
+Mais qui stocke donc les tables ? 
+
+C'est le rôle du **Système de Gestion de Base de Données** (SGBD). 
+
+Le SGBD permet : 
+
+> - le stockage, 
+> - la mise à jour,
+> - la partageabilité des données,
+> - la maintenance des données.
+
+Le choix du SGBD dépend principalement de ses objectifs. 
+
+Les plus répandus sont : MySQL, PostgreSQL, MongoDB, SQLite, _etc._
+
+## Avant de commencer !
+
+En SQL, l'ordre des instructions est important !
+```{sql, eval=FALSE}
+SELECT [ DISTINCT ] 
+FROM
+WHERE
+GROUP BY
+HAVING
+ORDER BY
+LIMIT
+```
+
+⚠️ Deux régles d'écriture à respecter *au maximum* : 
+
+- Écrire les instructions SQL en majuscule.   
+   
+- Indenter son code.
+
+# R + SQL !
+
+## Interroger des SGBD
+
+Il existe plusieurs _packages_ pour requêter des SGBD depuis R. 
+
+Parmi eux, nous retrouvons : 
+
+> - {RMySQL} pour se connecter sur **MySQL** et **MariaDB**.  
+\ 
+> - {RPostgreSQL} pour se connecter sur **Postgres** et **Redshift**.  
+\ 
+> - {RSQLite} pour interroger les bases **SQLite**.   
+\ 
+> - Mais aussi les packages comme {odbc} ou encore {bigrquery}.  
+
+## Le package {RSQLite}
+
+Dans R, le package {RSQLite} permet d'**interroger** des bases de données SQLite. 
+
+C'est le package parfait pour nous exercer aux instructions SQL depuis notre logiciel préféré ! 💪
+
+```{r, eval=FALSE}
+install.packages("RSQLite")
+library(RSQLite)
+```
+
+##  Importation des données
+
+Pour apprendre, nous utiliserons le jeu de données [players.csv](https://github.com/ArthurData/data/blob/main/players.csv)
+
+Vous pouvez télécharger les données avec la commande suivante : 
+
+```{r}
+#| echo: true
+#| eval: true
+# install.packages("readr")
+players <- readr::read_csv(
+  "https://raw.githubusercontent.com/ArthurData/data/main/players.csv",
+  na = ""
+)
+```
+
+##  players
+
+Le dataframe <font color="#c7254e">`players`</font> contient la liste des joueurs de football ayant participé à la coupe du monde en 2014. Il est parfait pour nous entrainer au SQL. 
+
+Vous pouvez le consulter avec la commande :
+
+```{r}
+#| echo: true
+#| eval: false
+# Ceci est un commentaire
+# La fonction View() commence avec un V majuscule !
+View(players)
+```
+
+## players
+
+```{r}
+#| echo: false
+#| eval: true
+players
+```
+
+## Let's go !
+
+La suite : [Sélectionner des données](https://cours.breant.art/sql/select)
