@@ -640,10 +640,8 @@
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="lopérateur-between-2" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>L’opérateur BETWEEN</h2>
-<p>Extrayons tous les joueurs qui sont nés entre le 01 janvier 1990 (<em>1990-01-01</em>) et le 31 décembre 1994 (<em>1994-12-31</em>) :</p>
+<div class="fragment fade-in">
+<p>Extraction des joueurs nés entre le 01 janvier 1990 (<em>1990-01-01</em>) et le 31 décembre 1994 (<em>1994-12-31</em>)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
@@ -651,6 +649,7 @@
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players</span></span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE birth_date BETWEEN '1990-01-01' AND '1994-12-31'"</span></span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </section></section>
 <section>
@@ -675,7 +674,6 @@
 </section>
 <section id="lopérateur-like-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
 <h2>L’opérateur LIKE</h2>
-<div class="fragment fade-in-then-semi-out">
 <p>Sélectionnons tous les joueurs dont les noms commencent par la lettre “a” :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
@@ -684,7 +682,6 @@
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE name LIKE 'a%'"</span></span>
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </div>
 <div class="fragment fade-in-then-semi-out">
 <p>Sélectionnons tous les joueurs dont les noms terminent par la lettre “a” :</p>
@@ -768,6 +765,114 @@
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE position = 'Milieu' </span></span>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="st">  AND name LIKE 'm%'"</span></span>
 <span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="is-not-null" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h1>IS (NOT) NULL</h1>
+
+</section>
+<section id="les-opérateurs-is-null-is-not-null" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>Les opérateurs IS NULL / IS NOT NULL</h2>
+<p>L’opérateur <font color="#188630"><code>IS</code></font> permet de tester si une valeur est <font color="#188630"><code>NULL</code></font> ou non, <font color="#188630"><code>NOT NULL</code></font>.</p>
+<p>C’est la <strong>seule façon</strong> de gérer les valeurs manquantes. Les valeurs manquantes ne sont pas gérées par les autres opérateurs de comparaisons.</p>
+<p>Mettons en pratiques ces deux opérateurs sur notre table !</p>
+<p>Sélectionner les joueurs dont la position sur le terrain est inconnue :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment fade-in">
+<p>Sélectionnons les joueurs dont la position sur le terrain est inconnue :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT * </span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE position IS NULL"</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="order-by" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h1>ORDER BY</h1>
+
+</section>
+<section id="order-by-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>ORDER BY</h2>
+<p>En SQL, il est possible de gérer dans notre requête, <strong>l’ordre de sortie des résultats</strong>.</p>
+<p>À l’aide de l’instruction <font color="#188630"><code>ORDER BY</code></font>, on peut trier les lignes d’une ou plusieurs colonnes par ordre croissant ou décroissant.</p>
+<p><em><small><font color="#848484"><code>À noter, par défaut, l'ordre d'affichage est toujours croissant !</code></font></small></em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tableau</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> colonne <span class="kw">DESC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Pour trier sur plusieurs colonnes, on les nomme dans l’instruction <font color="#188630"><code>ORDER BY</code></font> et on les sépare par des <font color="#c7254e"><code>,</code></font></p>
+</section>
+<section id="order-by-2" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>ORDER BY</h2>
+<p>Afficher le nom et le nombre de sélections des joueurs, de celui qui a le plus de sélections à celui qui en a le moins :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Afficher le nom, le nombre de sélections et le numéro de maillot des joueurs, trier par ordre de sélections croissant et décroissant de maillot :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Afficher le nom, le nombre de sélections des 3 milieux de terrain qui ont le plus de sélections :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="order-by-3" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>ORDER BY</h2>
+<div class="fragment fade-in">
+<p>Affichons le nom et le nombre de sélections des joueurs, de celui qui a le plus de sélections à celui qui en a le moins :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT name, played </span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="st">  ORDER BY played DESC"</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="fragment fade-in">
+<p>Affichons le nom, le nombre de sélections et le numéro de maillot des joueurs, trier par ordre de sélections croissant et décroissant de maillot :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT name, played, number </span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="st">  ORDER BY number DESC, played"</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="fragment fade-in">
+<p>Affichons le nom, le nombre de sélections des 3 milieux de terrain qui ont le plus de sélections :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT name, played </span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE position = 'Milieu' </span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="st">  ORDER BY played DESC </span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="st">  LIMIT 3"</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 
