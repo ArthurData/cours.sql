@@ -24,6 +24,7 @@ jobs:
         with:
           packages: any::knitr
             any::rmarkdown
+            any::readr
 
       - name: Render home slides
         uses: quarto-dev/quarto-actions/render@v2
