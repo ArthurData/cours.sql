@@ -1,0 +1,485 @@
+---
+title: Filtrer des données
+format:
+  lille-univ-revealjs: default
+author: Arthur Bréant
+---
+
+# Filtrer des données
+
+## Sélection conditionnelle
+
+En SQL, il est possible de sélectionner certaines lignes dans notre table selon des conditions. L'instruction <font color="#188630">`WHERE`</font> permet de **filtrer** nos données selon les conditions que l'on renseigne.
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT colonne 
+FROM tableau 
+WHERE colonne opérateur condition
+```
+
+On teste une condition à l'aide des opérateurs de comparaisons. 
+```{r}
+#| echo: true
+#| eval: false
+=  # Égal
+<> # Différent de
+!= # Différent de
+>  # Strictement supérieur
+<  # Strictement inférieur
+>= # Supérieur ou égal
+<= # Inférieur ou égal
+```
+
+\  
+
+::: {.fragment}
+```{sql, eval=FALSE, echo=TRUE}
+SELECT *
+FROM tableau 
+WHERE taille > 178
+```
+:::
+
+## Sélection conditionnelle
+
+Afficher le nom des joueurs qui jouent en position de milieu de terrain :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+Afficher le nom et le nombre de sélections des joueurs qui ont 30 sélections ou plus : 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+Afficher le nom des joueurs qui portent le numéro 10 : 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+## Sélection conditionnelle
+
+::: {.fragment .fade-in-then-semi-out}
+Affichons le nom des joueurs qui jouent en position de milieu de terrain :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT name 
+  FROM players 
+  WHERE position = 'Milieu'"
+)
+```
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+Affichons le nom et le nombre de sélections des joueurs qui possédent 30 sélections ou plus : 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT name, played 
+  FROM players 
+  WHERE played >= 30"
+)
+```
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+Affichons le nom de joueurs qui portent le numéro 10 : 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT name 
+  FROM players 
+  WHERE number = 10"
+)
+```
+:::
+
+## Sélection conditionnelle
+
+Il est possible de combiner plusieurs conditions à l'aide des opérateurs <font color="#188630">`AND`</font> et/ou <font color="#188630">`OR`</font>.
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT colonne_1, colonne_2
+FROM tableau 
+WHERE colonne_1 opérateur condition 
+  AND colonne_2 opérateur condition 
+```
+
+## Sélection conditionnelle
+
+Sélectionner les milieux de terrain avec plus de 30 sélections: 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+Sélectionner les capitaines qui portent le numéro 10 :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+Extraire les capitaines ou ceux avec plus de + 100 sélections :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+## Sélection conditionnelle
+
+::: {.fragment .fade-in-then-semi-out}
+Sélectionnons les milieux de terrain avec plus de 30 sélections :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT * 
+  FROM players 
+  WHERE position = 'Milieu' AND played > 30"
+)
+```
+::: 
+
+::: {.fragment .fade-in-then-semi-out}
+Sélectionnons les capitaines qui portent le numéro 10 :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT * 
+  FROM players
+  WHERE captain = 1 AND number = 10"
+)
+```
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+Extrayons les capitaines ou ceux avec + de 100 sélections :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT name, captain, played 
+  FROM players 
+  WHERE captain = 1 OR played > 100"
+)
+```
+:::
+
+## Sélection conditionnelle 
+
+Le langage SQL propose d'autres opérateurs pour réaliser des conditions. 
+
+Parmi eux, les plus utilisés :
+
+- <font color="#188630">`(NOT) IN`</font> : Pour tester une liste de plusieurs valeurs.
+
+- <font color="#188630">`(NOT) BETWEEN`</font> : Pour tester une valeur au sein d'un intervalle. 
+
+- <font color="#188630">`(NOT) LIKE`</font> : Effectuer une recherche sur un mot.
+
+- <font color="#188630">`IS NULL`</font> : Pour tester si une valeur est nulle.
+
+- <font color="#188630">`IS NOT NULL`</font> : Pour tester si une valeur est non nulle.
+
+# IN
+
+## L'opérateur IN
+
+L'opérateur <font color="#188630">`IN`</font> vérifie si les valeurs d'une colonne sont **égales à une des valeurs dans une liste donnée**. 
+
+L'opérateur <font color="#188630">`IN`</font> permet d'éviter la répétition de l'opérateur <font color="#188630">`OR`</font>
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT colonne
+FROM tableau
+WHERE colonne IN (valeur_1, valeur_2, .., valeur_x)
+```
+
+En deux requêtes, une avec des opérateurs <font color="#188630">`OR`</font> et l'autre avec l'opérateur <font color="#188630">`IN`</font> :
+
+Extraire tous les joueurs évoluant dans les équipes nationales de France, Belgique, Espagne et Russie. 
+
+## L'opérateur IN
+
+Avec l'opérateur <font color="#188630">`OR`</font>
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT * 
+  FROM players 
+  WHERE team = 'France'
+    OR team = 'Belgique' 
+    OR team = 'Espagne' 
+    OR team = 'Russie'"
+)
+```
+
+Avec l'opérateur <font color="#188630">`IN`</font>
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT * 
+  FROM players
+  WHERE team IN ('France', 'Belgique', 'Espagne', 'Russie')"
+)
+```
+
+On préfère avec l'opérateur <font color="#188630">`IN`</font> ! 😉
+
+# BETWEEN
+
+## L'opérateur BETWEEN
+
+L'opérateur <font color="#188630">`BETWEEN`</font> permet de filtrer dans un **intervalle de données**. 
+
+L'intervalle peut être constitué de chaînes de caractères, de nombres ou de dates. 
+
+Le plus souvent, on l'utilise sur les deux derniers formats : les nombres et les dates. 
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT colonne
+FROM tableau
+WHERE colonne BETWEEN valeur_1 AND valeur_2
+```
+
+Pour tester si une valeur n'intervient pas dans un intervalle, il faut écrire <font color="#188630">`NOT BETWEEN`</font>.
+
+## L'opérateur BETWEEN
+
+Extraire les joueurs nés entre le 01 janvier 1990 (_1990-01-01_) et le 31 décembre 1994 (_1994-12-31_) 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+## L'opérateur BETWEEN
+
+Extrayons tous les joueurs qui sont nés entre le  01 janvier 1990 (_1990-01-01_) et le 31 décembre 1994 (_1994-12-31_) :
+
+```{r, eval=FALSE}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT * 
+  FROM players
+  WHERE birth_date BETWEEN '1990-01-01' AND '1994-12-31'"
+)
+```
+
+# LIKE
+
+## L'opérateur LIKE
+
+L'opérateur <font color="#188630">`LIKE`</font> permet de filtrer une colonne selon un _**pattern**_ donné. On l'utilise pour effectuer des recherches sur des mots, par exemple.
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT *
+FROM tableau
+WHERE colonne LIKE pattern
+```
+
+A l'inverse de l'opérateur de comparaison <font color="#188630">`=`</font>, l'opérateur <font color="#188630">`LIKE`</font> est plus maniable, notamment grâce à ces deux jokers :
+
+- <font color="#188630">`%`</font> : remplace tous les autres caractères.
+
+- <font color="#188630">`_`</font> : remplace **un et uniquement un** caractère.
+
+_Vite, vite, voyons quelques exemples !_
+
+## L'opérateur LIKE
+
+::: {.fragment .fade-in-then-semi-out}
+
+Sélectionnons tous les joueurs dont les noms commencent par la lettre "a" :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT * 
+  FROM players 
+  WHERE name LIKE 'a%'"
+)
+```
+:::
+
+
+::: {.fragment .fade-in-then-semi-out}
+
+Sélectionnons tous les joueurs dont les noms terminent par la lettre "a" :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT * 
+  FROM players 
+  WHERE name LIKE '%a'"
+)
+```
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+
+Sélectionnons tous les joueurs dont les noms contiennent la lettre "a" et également au moins un "c" :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db,
+  "SELECT * 
+  FROM players 
+  WHERE name LIKE '%a%c%'"
+)
+```
+:::
+
+## L'opérateur LIKE
+
+A vous ! 
+
+Sélectionner les joueurs qui contiennent les lettres "aa" dans leur prénom ou leur nom
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+Sélectionner les joueurs dont la 4ème lettre est un "a"
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+Sélectionner les milieux de terrain qui commencent par un "m"
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+## L'opérateur LIKE
+
+::: {.fragment .fade-in-then-semi-out}
+Sélectionnons les joueurs qui contiennent les lettres "aa" dans leur prénom ou leur nom
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT * 
+  FROM players 
+  WHERE name LIKE '%aa%'"
+)
+```
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+Sélectionnons les joueurs dont la 4ème lettre est un "a"
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT * 
+  FROM players 
+  WHERE name LIKE '___a%'
+)
+```
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+Sélectionnons les milieux qui commencent par un "m"
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT * 
+  FROM players 
+  WHERE position = 'Milieu' 
+  AND name LIKE 'm%'"
+)
+```
+:::
