@@ -563,6 +563,7 @@
 <h2>Sélectionner des données</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
+<div class="fragment fade-in-then-semi-out">
 <p>Sélectionner les 10 premiers éléments de la colonne <font color="#c7254e"><code>name</code></font></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
@@ -585,7 +586,9 @@
 10     maxwell</code></pre>
 </div>
 </div>
+</div>
 </div><div class="column" style="width:50%;">
+<div class="fragment fade-in-then-semi-out">
 <p>Sélectionner les 10 premiers éléments des colonnes <font color="#c7254e"><code>name</code></font> et <font color="#c7254e"><code>birth_date</code></font></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
@@ -606,6 +609,7 @@
 8       maicon 1981-07-26
 9      marcelo 1988-05-12
 10     maxwell 1981-08-27</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -637,6 +641,7 @@
 <h2>Sélectionner des données</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
+<div class="fragment fade-in-then-semi-out">
 <p>Sélectionner la colonne <font color="#c7254e"><code>position</code></font> <strong>mais</strong> (!) sans les doublons</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
@@ -653,7 +658,9 @@
 5 Attaquant</code></pre>
 </div>
 </div>
+</div>
 </div><div class="column" style="width:50%;">
+<div class="fragment fade-in-then-semi-out">
 <p>Sélectionner les colonnes <font color="#c7254e"><code>id</code></font> et <font color="#c7254e"><code>name</code></font></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
@@ -1403,6 +1410,7 @@
 </div>
 </div>
 </div>
+</div>
 </section></section>
 <section>
 <section id="créer-des-alias" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
@@ -1453,6 +1461,7 @@
 <p>Créons des alias !</p>
 <div class="columns">
 <div class="column" style="width:50%;">
+<div class="fragment fade-in-then-semi-out">
 <p>Créer un alias <font color="#c7254e"><code>name2</code></font> sur la colonne <font color="#c7254e"><code>name</code></font> :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
@@ -1461,7 +1470,9 @@
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players"</span></span>
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</div>
 </div><div class="column" style="width:50%;">
+<div class="fragment fade-in-then-semi-out">
 <p>Créer un alias de notre table <font color="#c7254e"><code>players</code></font> :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
@@ -1469,6 +1480,7 @@
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT * </span></span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players AS df"</span></span>
 <span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </div>
 </div>
