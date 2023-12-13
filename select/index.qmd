@@ -3,26 +3,397 @@ title: Sélectionner des données
 format:
   lille-univ-revealjs: default
 author: Arthur Bréant
-date: last-modified
 ---
 
-# Introduction 
+# Requêter une base de données 
 
-## Intro
+## Le package DBI
 
-Avec une petite sidebar
+Lorsque nous chargeons le package <font color="#188630">`RSQLite`</font>, nous chargeons également un autre package, nommé **DBI**. 
 
-## Contenu
+DBI = DataBase Interface. 
 
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+C'est le package qui gère la relation entre R et un SGBD.
 
-## Contenu
+Il permet notamment d'interroger nos bases.
 
-<https://github.com/ArthurData/quarto-revealjs-lilleuniv>
+## Les principales fonctions
 
-## Code
+Pour se connecter à une base de données, on utilise la fonction : 
 
 ```{r}
 #| echo: true
-print("hello world")
+#| eval: true
+library(DBI)
+db <- dbConnect(RSQLite::SQLite(), ":memory:")
 ```
+
+L'object _db_ contient la relation à notre base. C'est l'objet que nous devons requêter. 
+
+ L'utilisation de <font color="#188630">`:memory:`</font> signifie que la base de données sera créée en mémoire. 
+ 
+ Cela crée essentiellement une base de données temporaire en mémoire qui sera détruite lorsque la session R se termine.
+ 
+## Les principales fonctions
+
+Pour connaître les différentes tables présentes dans notre base, on utilise la fonction :
+
+```{r}
+#| echo: true
+#| eval: true
+dbListTables(db)
+```
+
+Pour le moment, elle est vide !
+
+On va remplir notre base, avec la fonction : 
+
+```{r}
+#| echo: true
+#| eval: true
+dbWriteTable(db, "mtcars", mtcars)
+```
+
+## Les principales fonctions
+
+Vérifions la création :
+
+```{r}
+#| echo: true
+#| eval: true
+dbExistsTable(db, "mtcars")
+dbListTables(db)
+dbListFields(db, "mtcars")
+```
+
+Pour se déconnecter, on utilise la fonction :
+
+```{r}
+#| eval: false
+#| echo: true
+dbDisconnect(db)
+```
+
+# Création d'une BDD + table
+
+## Création d'une base
+
+Avant de créer une table en SQL, il faut créer une **base de données**. 
+
+Il faut également **choisir le SGBD** qui va contenir notre base. Pour ce cours, nous utiliserons SQLite. 
+
+SQLite présente l'avantage d'être directement intégré à notre programme. Notre base est sauvegardée dans un fichier qui contient l'ensemble de nos tables, données, _etc._.
+
+Créons une base SQLite, dont le nom sera : <font color="#c7254e">`MyBase`</font>
+```{r}
+#| eval: false
+#| echo: true
+db <- dbConnect(RSQLite::SQLite(), dbname="MyBase")
+```
+
+Ajoutons dans notre bdd, la table <font color="#c7254e">`players`</font>
+
+```{r}
+#| eval: false
+#| echo: true
+dbWriteTable(
+  db, 
+  "players", 
+  players, 
+  field.types = c(birth_date = "date")
+)
+```
+
+Vérifions notre table :
+
+```{r}
+#| eval: false
+#| echo: true
+dbListFields(db, "players")
+```
+
+# Sélectionner des données (enfin...)
+
+## Sélectionner des données
+
+Nous venons de charger une table _players_. Utilisons maintenant l'instruction SQL qui permet de **sélectionner** nos variables !
+
+En SQL, c'est la commande <font color="#188630">`SELECT`</font>
+
+Sélectionner des variables : <font color="#188630">`SELECT`</font> <font color="#c7254e">`colonne`</font>
+
+Sélectionner toutes les variables : <font color="#188630">`SELECT *`</font>
+
+Sélectionner une colonne, sans les doublons : <font color="#188630">`SELECT DISTINCT`</font> <font color="#c7254e">`colonne`</font>
+
+## Sélectionner des données
+
+Il faut maintenant préciser dans quel tableau nous souhaitons requêter. Pour cela, il faut utiliser l'instruction <font color="#188630">`FROM`</font>. 
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT colonne1, colonne2
+FROM tableau
+```
+
+## Sélectionner des données
+
+Maintenant que notre base contient une table, nous allons requêter dessus avec R + SQL ! 
+
+Pour interroger une base, nous pouvons utiliser les fonctions suivantes :
+<font color="#188630">`dbGetQuery()`</font> et <font color="#188630">`dbSendQuery()`</font>
+
+::: {.columns}
+::: {.column width="50%"}
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT * 
+  FROM players"
+)
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+#| echo: true
+#| eval: false
+mtcars_query <- dbSendQuery(
+  conn = db, 
+  "SELECT * 
+  FROM players"
+)
+dbFetch(mtcars_query)
+```
+:::
+
+::::
+
+\  
+
+\  
+
+::: {.columns}
+::: {.column width="25%"}
+:::
+
+::: {.column width="50%"}
+```{r}
+#| echo: false
+#| eval: true
+library(readr)
+players <- read_csv(
+  "https://raw.githubusercontent.com/ArthurData/data/main/players.csv",
+  na = "",
+  col_types = cols(
+    birth_date = col_character()
+  )
+)
+dbWriteTable(
+  db, 
+  "players", 
+  players, 
+  field.types = c(birth_date = "date")
+)
+dbGetQuery(
+  conn = db, 
+  "SELECT * FROM players LIMIT 5"
+)
+```
+:::
+
+::: {.column width="25%"}
+:::
+::::
+
+## Sélectionner des données
+
+::: {.columns}
+::: {.column width="50%"}
+Sélectionner les 10 premiers éléments de la colonne <font color="#c7254e">`name`</font>
+
+```{r}
+#| echo: true
+#| eval: true
+dbGetQuery(
+  conn = db, 
+  "SELECT name 
+  FROM players 
+  LIMIT 10"
+)
+```
+:::
+
+::: {.column width="50%"}
+Sélectionner les 10 premiers éléments des colonnes <font color="#c7254e">`name`</font> et <font color="#c7254e">`birth_date`</font>
+
+```{r}
+#| echo: true
+#| eval: true
+dbGetQuery(
+  conn = db, 
+  "SELECT name, birth_date 
+  FROM players 
+  LIMIT 10"
+)
+```
+:::
+::::
+
+## Sélectionner des données
+
+::: {.columns}
+::: {.column width="50%"}
+Sélectionner la colonne <font color="#c7254e">`position`</font> **mais** (!) sans les doublons
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+:::
+
+::: {.column width="50%"}
+Sélectionner les colonnes <font color="#c7254e">`id`</font> et <font color="#c7254e">`name`</font> 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+:::
+::::
+
+## Sélectionner des données
+
+::: {.columns}
+
+::: {.column width="50%"}
+Sélectionner la colonne <font color="#c7254e">`position`</font> **mais** (!) sans les doublons
+
+```{r}
+#| echo: true
+#| eval: true
+dbGetQuery(
+  conn = db, 
+  "SELECT DISTINCT position 
+  FROM players"
+)
+```
+:::
+
+::: {.column width="50%"}
+Sélectionner les colonnes <font color="#c7254e">`id`</font> et <font color="#c7254e">`name`</font>
+
+```{r}
+#| echo: true
+#| eval: true
+dbGetQuery(
+  conn = db, 
+  "SELECT id, name 
+  FROM players"
+)
+```
+:::
+::::
+
+# Créer des alias
+
+## Créer des alias 
+
+En SQL, il est possible de créer des **alias** à l'aide de la commande <font color="#188630">`AS`</font>. 
+
+Un alias permet de renommer temporairement, le temps de notre requête, une colonne ou une table. 
+
+C'est trés pratique pour **gagner du temps d'écriture** et **faciliter la lecture** des requêtes.
+
+Pour créer un alias sur une colonne : 
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT colonne AS alias
+FROM tableau
+```
+
+Pour créer un alias sur une table : 
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT colonne
+FROM tableau AS alias
+```
+
+## Créer des alias 
+
+Créons des alias ! 
+
+::: {.columns}
+::: {.column width="50%"}
+Créer un alias <font color="#c7254e">`name2`</font> sur la colonne <font color="#c7254e">`name`</font> :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+:::
+
+::: {.column width="50%"}
+Créer un alias de notre table <font color="#c7254e">`players`</font> :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+:::
+::::
+
+## Créer des alias 
+
+Créons des alias ! 
+
+::: {.columns}
+::: {.column width="50%"}
+Créer un alias <font color="#c7254e">`name2`</font> sur la colonne <font color="#c7254e">`name`</font> :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT name AS name2 
+  FROM players"
+)
+```
+:::
+
+::: {.column width="50%"}
+Créer un alias de notre table <font color="#c7254e">`players`</font> :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT * 
+  FROM players AS df"
+)
+```
+:::
+::::
+
+## Explorons nos données !
+
+La suite: [Filtrer des données](https://sql.breant.art/filter)
