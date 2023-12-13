@@ -4,7 +4,6 @@ format:
   lille-univ-revealjs:
     css: custom.css
 author: Arthur Bréant
-date: last-modified
 ---
 
 # Que va-t-on faire ?
@@ -203,9 +202,13 @@ Vous pouvez télécharger les données avec la commande suivante :
 #| echo: true
 #| eval: true
 # install.packages("readr")
-players <- readr::read_csv(
+library(readr)
+players <- read_csv(
   "https://raw.githubusercontent.com/ArthurData/data/main/players.csv",
-  na = ""
+  na = "",
+  col_types = cols(
+    birth_date = col_character()
+  )
 )
 ```
 
