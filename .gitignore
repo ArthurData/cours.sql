@@ -1,3 +1,4 @@
+/.quarto/
 index_files/
 .quarto/
-*.html
+index.html

@@ -3,7 +3,6 @@ title: Introduction au SQL avec R
 format:
   lille-univ-revealjs:
     css: custom.css
-
 author: Arthur Bréant
 date: last-modified
 ---
@@ -234,4 +233,4 @@ players
 
 ## Let's go !
 
-La suite : [Sélectionner des données](https://cours.breant.art/sql/select)
+La suite : [Sélectionner des données](https://sql.breant.art/select)
