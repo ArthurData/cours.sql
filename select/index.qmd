@@ -168,7 +168,7 @@ dbFetch(mtcars_query)
 ```
 :::
 
-::::
+:::
 
 \  
 
@@ -205,12 +205,13 @@ dbGetQuery(
 
 ::: {.column width="25%"}
 :::
-::::
+:::
 
 ## Sélectionner des données
 
 ::: {.columns}
 ::: {.column width="50%"}
+::: {.fragment .fade-in-then-semi-out}
 Sélectionner les 10 premiers éléments de la colonne <font color="#c7254e">`name`</font>
 
 ```{r}
@@ -224,8 +225,10 @@ dbGetQuery(
 )
 ```
 :::
+:::
 
 ::: {.column width="50%"}
+::: {.fragment .fade-in-then-semi-out}
 Sélectionner les 10 premiers éléments des colonnes <font color="#c7254e">`name`</font> et <font color="#c7254e">`birth_date`</font>
 
 ```{r}
@@ -239,7 +242,8 @@ dbGetQuery(
 )
 ```
 :::
-::::
+:::
+:::
 
 ## Sélectionner des données
 
@@ -269,13 +273,14 @@ dbGetQuery(
 )
 ```
 :::
-::::
+:::
 
 ## Sélectionner des données
 
 ::: {.columns}
 
 ::: {.column width="50%"}
+::: {.fragment .fade-in-then-semi-out}
 Sélectionner la colonne <font color="#c7254e">`position`</font> **mais** (!) sans les doublons
 
 ```{r}
@@ -288,8 +293,10 @@ dbGetQuery(
 )
 ```
 :::
+:::
 
 ::: {.column width="50%"}
+::: {.fragment .fade-in-then-semi-out}
 Sélectionner les colonnes <font color="#c7254e">`id`</font> et <font color="#c7254e">`name`</font>
 
 ```{r}
@@ -302,7 +309,8 @@ dbGetQuery(
 )
 ```
 :::
-::::
+:::
+:::
 
 # Créer des alias
 
@@ -358,7 +366,7 @@ dbGetQuery(
 )
 ```
 :::
-::::
+:::
 
 ## Créer des alias 
 
@@ -366,6 +374,7 @@ Créons des alias !
 
 ::: {.columns}
 ::: {.column width="50%"}
+::: {.fragment .fade-in-then-semi-out}
 Créer un alias <font color="#c7254e">`name2`</font> sur la colonne <font color="#c7254e">`name`</font> :
 
 ```{r}
@@ -378,8 +387,10 @@ dbGetQuery(
 )
 ```
 :::
+:::
 
 ::: {.column width="50%"}
+::: {.fragment .fade-in-then-semi-out}
 Créer un alias de notre table <font color="#c7254e">`players`</font> :
 
 ```{r}
@@ -392,7 +403,8 @@ dbGetQuery(
 )
 ```
 :::
-::::
+:::
+:::
 
 ## Explorons nos données !
 
