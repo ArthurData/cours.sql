@@ -313,9 +313,8 @@ dbGetQuery(
 )
 ```
 
-## L'opérateur BETWEEN
-
-Extrayons tous les joueurs qui sont nés entre le  01 janvier 1990 (_1990-01-01_) et le 31 décembre 1994 (_1994-12-31_) :
+::: {.fragment .fade-in}
+Extraction des joueurs nés entre le 01 janvier 1990 (_1990-01-01_) et le 31 décembre 1994 (_1994-12-31_) 
 
 ```{r, eval=FALSE}
 #| echo: true
@@ -327,6 +326,7 @@ dbGetQuery(
   WHERE birth_date BETWEEN '1990-01-01' AND '1994-12-31'"
 )
 ```
+:::
 
 # LIKE
 
@@ -350,8 +350,6 @@ _Vite, vite, voyons quelques exemples !_
 
 ## L'opérateur LIKE
 
-::: {.fragment .fade-in-then-semi-out}
-
 Sélectionnons tous les joueurs dont les noms commencent par la lettre "a" :
 
 ```{r}
@@ -364,8 +362,6 @@ dbGetQuery(
   WHERE name LIKE 'a%'"
 )
 ```
-:::
-
 
 ::: {.fragment .fade-in-then-semi-out}
 
@@ -480,6 +476,147 @@ dbGetQuery(
   FROM players 
   WHERE position = 'Milieu' 
   AND name LIKE 'm%'"
+)
+```
+:::
+
+# IS (NOT) NULL 
+
+## Les opérateurs IS NULL / IS NOT NULL
+
+L'opérateur <font color="#188630">`IS`</font> permet de tester si une valeur est <font color="#188630">`NULL`</font> ou non, <font color="#188630">`NOT NULL`</font>. 
+
+C'est la **seule façon** de gérer les valeurs manquantes. Les valeurs manquantes ne sont pas gérées par les autres opérateurs de comparaisons.
+
+Mettons en pratiques ces deux opérateurs sur notre table !
+
+Sélectionner les joueurs dont la position sur le terrain est inconnue :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+
+::: {.fragment .fade-in}
+
+Sélectionnons les joueurs dont la position sur le terrain est inconnue :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT * 
+  FROM players 
+  WHERE position IS NULL"
+)
+```
+:::
+
+# ORDER BY
+
+## ORDER BY
+
+En SQL, il est possible de gérer dans notre requête, **l'ordre de sortie des résultats**. 
+
+À l'aide de l'instruction <font color="#188630">`ORDER BY`</font>, on peut trier les lignes d'une ou plusieurs colonnes par ordre croissant ou décroissant. 
+
+_<small><font color="#848484">`À noter, par défaut, l'ordre d'affichage est toujours croissant !`</font></small>_
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT *
+FROM tableau
+ORDER BY colonne DESC
+```
+
+Pour trier sur plusieurs colonnes, on les nomme dans l'instruction <font color="#188630">`ORDER BY`</font> et on les sépare par des <font color="#c7254e">`,`</font>
+
+## ORDER BY
+
+Afficher le nom et le nombre de sélections des joueurs, de celui qui a le plus de sélections à celui qui en a le moins :  
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+Afficher le nom, le nombre de sélections et le numéro de maillot des joueurs, trier par ordre de sélections croissant et décroissant de maillot : 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+Afficher le nom, le nombre de sélections des 3 milieux de terrain qui ont le plus de sélections : 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+## ORDER BY
+
+::: {.fragment .fade-in}
+Affichons le nom et le nombre de sélections des joueurs, de celui qui a le plus de sélections à celui qui en a le moins : 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT name, played 
+  FROM players 
+  ORDER BY played DESC"
+)
+```
+:::
+
+::: {.fragment .fade-in}
+Affichons le nom, le nombre de sélections et le numéro de maillot des joueurs, trier par ordre de sélections croissant et décroissant de maillot : 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT name, played, number 
+  FROM players
+  ORDER BY number DESC, played"
+)
+```
+:::
+
+
+::: {.fragment .fade-in}
+Affichons le nom, le nombre de sélections des 3 milieux de terrain qui ont le plus de sélections : 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT name, played 
+  FROM players
+  WHERE position = 'Milieu' 
+  ORDER BY played DESC 
+  LIMIT 3"
 )
 ```
 :::
