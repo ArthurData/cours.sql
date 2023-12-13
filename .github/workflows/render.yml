@@ -22,7 +22,8 @@ jobs:
       - name: Setup R dep
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          packages: any::knitr
+          packages: |
+            any::knitr
             any::rmarkdown
             any::readr
             any::DBI
