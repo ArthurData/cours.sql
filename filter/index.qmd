@@ -620,3 +620,84 @@ dbGetQuery(
 )
 ```
 :::
+
+# Exercice récapitulatif
+
+## En SQL...
+
+1/ Afficher les joueurs ayant un id entre 200 et 300 et dont le nom se termine par un "n".
+
+2/ Afficher les joueurs évoluant dans les équipes suivantes : Real Madrid, Barcelona et Arsenal et dont la position n'est pas renseignée.
+
+3/ Afficher le capitaine qui possédent le plus de sélections.
+
+4/ Afficher les capitaines avec plus de 100 sélections ou les numéros 10 avec plus de 50 sélections.
+
+## Correction
+
+Affichons les joueurs ayant un id entre 200 et 300 et dont le nom se termine par un "n".
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT *
+  FROM players 
+  WHERE id BETWEEN 200 AND 300 
+    AND name LIKE '%n'"
+)
+```
+
+## Correction
+
+Affichons les joueurs évoluant dans les équipes suivantes : Real Madrid, Barcelona et Arsenal et dont la position n'est pas renseignée.
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT *
+  FROM players
+  WHERE club IN ('Real Madrid', 'Barcelona', 'Arsenal') 
+    AND position IS NULL"
+)
+```
+
+## Correction
+
+Affichons le capitaine qui possédent le plus de sélections.
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT *
+  FROM players
+  WHERE captain = 1
+  ORDER BY played DESC
+  LIMIT 1"
+)
+```
+
+## Correction
+
+Affichons les capitaines avec plus de 100 sélections ou les numéros 10 avec plus de 50 sélections.
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT *
+  FROM players
+  WHERE captain = 1 AND played > 100 
+    OR number = 10 AND played > 50"
+)
+```
+
+## Place aux agrégations !
+
+La suite: [Agréger des données](https://sql.breant.art/aggregate)
