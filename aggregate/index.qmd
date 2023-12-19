@@ -1,0 +1,663 @@
+---
+title: Agréger des données
+format:
+  lille-univ-revealjs: default
+author: Arthur Bréant
+---
+
+# Agréger des données
+
+## Les fonctions 
+
+Il existe en SQL des **fonctions** qui permettent de réaliser des **opérations de calculs**, de **modifier des chaînes de caractères** ou encore de **manipuler des dates**.
+
+Nous retrouvons les principales fonctions : 
+
+**d'aggrégations** :  
+<font color="#188630">`MAX`</font> = maximum ; 
+<font color="#188630">`MIN`</font> = minimum ; 
+<font color="#188630">`SUM`</font> = somme ;  
+<font color="#188630">`COUNT`</font> = dénombrement ; 
+<font color="#188630">`AVG`</font> = moyenne
+
+\  
+ 
+**de modifications de texte** :  
+<font color="#188630">`UPPER`</font> = majuscule ; 
+<font color="#188630">`LOWER`</font> = minuscule ;  
+<font color="#188630">`SUBSTR`</font> = tronque ; 
+<font color="#188630">`LENGTH`</font> = compte 
+
+# Opérations textuelles
+
+## Modifier du texte 
+
+Quelques exemples avec les fonctions qui modifient du texte :
+
+Mettons le nom des joueurs en majuscules !
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db,
+  "SELECT UPPER(name)
+  FROM players"
+)
+```
+
+A l'inverse, mettons les noms des clubs en minuscules :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db,
+  "SELECT LOWER(club)
+  FROM players"
+)
+```
+
+## La fonction substr
+
+La fonction <font color="#188630">`substr`</font> permet de tronquer une partie d'une chaîne de caractère.
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT SUBSTR(colonne, start, length)  
+FROM tableau
+```
+
+Afficher les initiales (deux premières lettres) des équipes nationales, sans les doublons:
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db,
+  "?"
+)
+```
+
+::: {.fragment .fade-in}
+Afficher les initiales
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT DISTINCT SUBSTR(team, 1, 2) AS initiales, team 
+  FROM players"
+)
+```
+:::
+
+# Opérations statistiques
+
+## Les fonctions d'aggrégation
+
+En SQL, les fonctions d'aggrégation sont très utiles et très souvent utilisées. Elles permettent de réaliser des **premières opérations statistiques** sur une base de données. Les fonctions d'aggrégation s'appliquent aux colonnes de nos tables : 
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT fonction(colonne)  
+FROM tableau
+```
+
+Pour compter le nombre d'observations dans notre table, on peut utiliser la requête :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT COUNT(*) AS total 
+  FROM players")
+```
+
+Calculons quelques données...
+
+## Les fonctions d'aggrégation 
+
+Quel est le nombre de sélections total ? 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+Quel est le nombre de sélections moyen ? 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+Quel est le nombre de milieu de terrain ?  
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+Quel est le nombre de sélections moyen des capitaines ? 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+## Les fonctions d'aggrégation 
+
+::: {.fragment .fade-in-then-semi-out}
+Le nombre de sélections total : 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT SUM(played) AS sum_played
+  FROM players"
+)
+```
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+Le nombre de sélections moyen : 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT AVG(played) AS mean_played 
+  FROM players"
+)
+```
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+Le nombre de milieu de terrain :  
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT COUNT(position) 
+  FROM players 
+  WHERE position = 'Milieu'"
+)
+```
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+Le nombre de sélections moyen des capitaines :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT AVG(played) AS captain_mean 
+  FROM players 
+  WHERE captain = 1"
+)
+```
+:::
+
+# GROUP BY
+
+## Regrouper ses observations
+
+Pour utiliser pleinement la puissance des fonctions d'aggrégation, on utilise la commande <font color="#188630">`GROUP BY`</font>.
+
+Cette instruction permet de regrouper nos **observations identiques** et d'appliquer la fonction d'aggréation sur ces groupes.
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT colonne, fonction(colonne)  
+FROM tableau
+GROUP BY colonne
+```
+
+## GROUP BY 
+
+Quel est le nombre de joueurs par position ?  
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+Combien y-a-t-il de joueurs par équipe ? 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+
+Quel est le nombre de sélection moyen des capitaines et des non capitaines ? Trier par ordre décroissant de sélections
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+## GROUP BY 
+
+::: {.fragment .fade-in-then-semi-out}
+Le nombre de joueurs par position : 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT position, COUNT(*) 
+  FROM players 
+  GROUP BY position"
+)
+```
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+Le nombre de joueurs par équipe :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT team, COUNT(*) 
+  FROM players 
+  GROUP BY team"
+)
+```
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+Le nombre de sélection moyen des capitaines et non capitaine, trier par ordre décroissant :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT captain, AVG(played) AS avg_played 
+  FROM players
+  GROUP BY captain
+  ORDER BY avg_played DESC"
+)
+```
+:::
+
+# Exercice intermédiaire
+
+Mettons nos connaissances en pratique ! 
+
+Parmi les clubs suivants :   
+\ 
+_Real Madrid, Barcelona, Arsenal, Chelsea, Liverpool, Juventus_  
+\ 
+
+Quel est le club qui a le plus de joueurs qui ont participé à la Coupe du Monde ?
+Calculer également le nombre de sélections moyen des joueurs appartenant à ces clubs.
+Trier du plus grand effectif au plus petit effectif.
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+## Exercice intermédiaire
+
+Correction : 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db,
+  "SELECT club, COUNT(*) AS effectif, 
+          AVG(played) AS 'Moyenne played'
+  FROM players
+  WHERE club IN ('Real Madrid', 'Barcelona', 'Arsenal', 
+                 'Chelsea', 'Liverpool', 'Juventus')
+  GROUP BY club
+  ORDER BY effectif DESC"
+)
+```
+
+# HAVING
+
+## La clause HAVING
+
+Imaginons que nous souhaitions filtrer les clubs qui avaient au moins 12 joueurs représentés à la Coupe du Monde. En SQL, c'est possible grâce à la condition <font color="#188630">`HAVING`</font> !
+
+L'instruction <font color="#188630">`HAVING`</font> est similaire à l'instruction <font color="#188630">`WHERE`</font>, à ceci près que <font color="#188630">`HAVING`</font> permet d'appliquer un filtre **sur les fonctions d'aggrégation**. 
+
+_<small><font color="#848484">`L'instruction WHERE ne s'applique pas aux fonctions d'aggrégation !`</font></small>_
+
+_<small><font color="#848484">`Les alias ne peuvent pas -toujours- être utilisés dans la condition HAVING`</font></small>_
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT colonne_1, fonction(colonne_2) AS alias
+FROM tableau
+GROUP BY colonne_1
+HAVING fonction(colonne_2) operateur valeur
+```
+
+## La clause HAVING
+
+Plus concrètement ? 🤨
+
+Reprenons notre exercice précédent. Conservons les clubs avec au moins 12 joueurs représentés.
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT club, COUNT(*) AS effectif, AVG(played) AS 'Moyenne played'
+  FROM players
+  WHERE club IN ('Real Madrid', 'Barcelona', 'Arsenal', 
+                 'Chelsea', 'Liverpool', 'Juventus')
+  GROUP BY club
+  HAVING effectif >= 12
+  ORDER BY effectif DESC"
+)
+```
+
+## La clause HAVING
+
+<small><font color="#848484">`Un piège est glissé dans une des questions suivantes 😉`</font></small> 
+ 
+1/ Quel est le nombre de joueurs par position ? Filtrer les positions ayant plus de 100 joueurs
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+
+2/ Qui est le milieu de terrain né entre 1994-01-01 et 1994-03-31 et qui possède plus de 3 sélections ?
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+3/ Quels sont les clubs ayant uniquement 1 joueur représenté à cette compétition et dont le nom du club commence par un "S" ?
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+## La clause HAVING
+
+::: {.fragment .fade-in-then-semi-out}
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT position, COUNT(*) AS total
+  FROM players 
+  GROUP BY position 
+  HAVING total > 100"
+)
+```
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT name, position, birth_date
+  FROM players
+  WHERE position = 'Milieu' 
+    AND birth_date BETWEEN '1994-01-01' AND '1994-03-31'
+    AND played > 3"
+)
+```
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT club, COUNT(*) AS effectif 
+  FROM players 
+  WHERE club LIKE 'S%'
+  GROUP BY club 
+  HAVING effectif = 1"
+)
+```
+:::
+
+# CASE ... WHEN
+
+## CASE ... WHEN
+
+En SQL, l'expression <font color="#188630">`CASE WHEN`</font> permet de réaliser une condition de type : <font color="#c7254e">`SI ... SINON`</font>. 
+
+Cette opération permet notamment de **créer une nouvelle variable (colonne)**. Elle s'utilise **avec les opérateurs de comparaisons**.
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT CASE 
+  WHEN colonne opérateur condition THEN "valeur 1"
+  WHEN colonne opérateur condition THEN "valeur 2"
+  ..
+  ELSE "valeur"
+  END AS alias
+FROM tableau
+```
+
+_<small><font color="#848484">`A noter, la condition ELSE n'est pas obligatoire !`</font></small>_
+
+Vite, vite un exemple !
+
+## CASE ... WHEN
+
+Recodons la colonne <font color="#c7254e">`captain`</font> de notre table <font color="#c7254e">`players`</font>. Plutôt que des 0 et des 1, nous souhaitons avoir les valeurs suivantes : <font color="#c7254e">`capitaine`</font> ou <font color="#c7254e">`non capitaine`</font>.
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT *, 
+          CASE 
+            WHEN captain = 1 THEN 'capitaine' 
+            WHEN captain = 0 THEN 'pas capitaine' 
+          END AS captain2 
+  FROM players"
+)
+```
+ 
+On peut aussi écrire :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT *, 
+          CASE 
+            WHEN captain = 1 THEN 'capitain' 
+            ELSE 'pas capitaine' 
+          END AS captain2 
+  FROM players"
+)
+```
+
+## CASE ... WHEN
+
+Créer une colonne nommée <font color="#c7254e">`experience`</font> qui contient : `joueur expérimenté` si le joueur a plus de 40 sélections ; `joueur confirmé` si le joueur a entre 20 et 40 sélections ; `jeune joueur` si le joueur a moins de 20 sélections. 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+Créer une colonne nommée <font color="#c7254e">`captain_exp`</font> qui contient : `capitaine expérimenté` si le joueur est capitaine avec 40 ou + sélections ; `jeune capitaine` si le joueur est capitaine avec moins de 40 sélections. Idem avec les non capitaines : `jeune joueur` et `joueur expérimenté`
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "?"
+)
+```
+
+## CASE ... WHEN 
+
+::: {.fragment .fade-in-then-semi-out}
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT *, 
+          CASE 
+            WHEN played > 40 THEN 'joueur expérimenté'
+            WHEN played BETWEEN 20 AND 40 THEN 'joueur confirmé'
+            ELSE 'jeune joueur' 
+          END AS experience
+  FROM players
+  ORDER BY played"
+)
+```
+:::
+
+::: {.fragment .fade-in-then-semi-out}
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db,
+  "SELECT *, 
+          CASE 
+            WHEN played >= 40 AND captain = 1 THEN 'capitaine expérimenté'
+            WHEN played < 40 AND captain = 1 THEN 'jeune capitaine'
+            WHEN played >= 40 AND captain = 0 THEN 'joueur expérimenté'
+            WHEN played < 40 AND captain = 0 THEN 'jeune joueur' 
+          END AS captain_exp
+  FROM players
+  ORDER BY played"
+)
+```
+:::
+
+## Exercice récapitulatif
+
+Créer une colonne <font color="#c7254e">`continent`</font> qui regroupe les continents : 
+
+_<small>`Europe` : Croatie, Espagne, Pays-Bas, Grece, Angleterre, Italie, France, Suisse, Bosnie-Herzegovine, Allemagne, Portugal, Belgique </small>_
+
+_<small>`Afrique` : Cameroun, Cote d'Ivoire, Nigeria, Ghana, Algerie </small>_
+
+_<small>`Amérique` : Brésil, Mexique, Chili, Colombie, Costa Rica, Uruguay, Equateur, Honduras, Argentine, Etats-Unis</small>_
+
+_<small>`Asie` : Japon, Iran, Coree du Sud, Russie</small>_
+
+_<small>`Océanie` : Australie</small>_
+
+Puis, pour chacun des continents, compter le nombre de joueurs et de sélections totales. Trier du continent avec le plus de sélections à celui avec le moins. Exclure les continents avec moins de 1200 sélections.
+
+## Exercice récapitulatif
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db, 
+  "SELECT CASE 
+        WHEN team IN ('Cameroun', 'Cote d''Ivoire', 'Nigeria', 
+                     'Ghana', 'Algerie') THEN 'Afrique'
+        WHEN team = 'Australie' THEN 'Océanie'
+        WHEN team IN ('Brésil', 'Mexique', 'Chili', 'Colombie', 
+                     'Costa Rica', 'Uruguay', 'Equateur', 
+                     'Honduras', 'Argentine', 
+                     'Etats-Unis') THEN 'Amérique'
+        WHEN team IN ('Japon', 'Iran', 'Coree du Sud', 
+                     'Russie') THEN 'Asie'
+        ELSE 'Europe'
+        END AS continent, COUNT(*) AS n_joueurs, SUM(played) AS sum_selec
+  FROM players
+  GROUP BY continent
+  HAVING SUM(played) > 1200
+  ORDER BY sum_selec DESC"
+)
+```
+
+## Synthèse 
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT [ DISTINCT ] : Sélectionne des variables [Affiche sans doublons]
+FROM     : Précise le tableau dans laquelle se trouve les données
+WHERE    : Filtre les données selon une ou plusieurs conditions
+GROUP BY : Regroupe les modalités d''une variable
+HAVING   : Ajoute un filtre sur une fonction d''aggrégation
+ORDER BY : Ordonne une ou plusieurs colonnes
+```
+
+## Continuons !
+
+La suite : [Agréger des données, la suite !]()
+
