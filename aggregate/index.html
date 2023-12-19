@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.3.450">
 
   <meta name="author" content="Arthur Bréant">
-  <title>Filtrer des données</title>
+  <title>Agréger des données</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -393,337 +393,335 @@
 <section id="title-slide" data-background-image="../_extensions/ArthurData/lille-univ/large-sidebar.png" data-background-position="left" data-background-size="50% 100%" class="center">
   <div class="flex-section">
     <div class="half-section">
-      <h1 class="title">Filtrer des données</h1>
+      <h1 class="title">Agréger des données</h1>
                   <p class="author">Arthur Bréant</p>
                       </div>
   </div>
 </section>
 <section>
-<section id="filtrer-des-données" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h1>Filtrer des données</h1>
+<section id="agréger-des-données" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h1>Agréger des données</h1>
 
 </section>
-<section id="sélection-conditionnelle" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Sélection conditionnelle</h2>
-<p>En SQL, il est possible de sélectionner certaines lignes dans notre table selon des conditions. L’instruction <font color="#188630"><code>WHERE</code></font> permet de <strong>filtrer</strong> nos données selon les conditions que l’on renseigne.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> colonne </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tableau </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> colonne opérateur condition</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>On teste une condition à l’aide des opérateurs de comparaisons.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ot">=</span>  <span class="co"># Égal</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;&gt;</span> <span class="co"># Différent de</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="er">!=</span> <span class="co"># Différent de</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="er">&gt;</span>  <span class="co"># Strictement supérieur</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span>  <span class="co"># Strictement inférieur</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="er">&gt;=</span> <span class="co"># Supérieur ou égal</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;=</span> <span class="co"># Inférieur ou égal</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="les-fonctions" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>Les fonctions</h2>
+<p>Il existe en SQL des <strong>fonctions</strong> qui permettent de réaliser des <strong>opérations de calculs</strong>, de <strong>modifier des chaînes de caractères</strong> ou encore de <strong>manipuler des dates</strong>.</p>
+<p>Nous retrouvons les principales fonctions :</p>
+<p><strong>d’aggrégations</strong> :<br>
+<font color="#188630"><code>MAX</code></font> = maximum ; <font color="#188630"><code>MIN</code></font> = minimum ; <font color="#188630"><code>SUM</code></font> = somme ;<br>
+<font color="#188630"><code>COUNT</code></font> = dénombrement ; <font color="#188630"><code>AVG</code></font> = moyenne</p>
 <p>&nbsp;</p>
-<div class="fragment">
+<p><strong>de modifications de texte</strong> :<br>
+<font color="#188630"><code>UPPER</code></font> = majuscule ; <font color="#188630"><code>LOWER</code></font> = minuscule ;<br>
+<font color="#188630"><code>SUBSTR</code></font> = tronque ; <font color="#188630"><code>LENGTH</code></font> = compte</p>
+</section></section>
+<section>
+<section id="opérations-textuelles" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h1>Opérations textuelles</h1>
+
+</section>
+<section id="modifier-du-texte" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>Modifier du texte</h2>
+<p>Quelques exemples avec les fonctions qui modifient du texte :</p>
+<p>Mettons le nom des joueurs en majuscules !</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tableau </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> taille <span class="op">&gt;</span> <span class="dv">178</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT UPPER(name)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>A l’inverse, mettons les noms des clubs en minuscules :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT LOWER(club)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="sélection-conditionnelle-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Sélection conditionnelle</h2>
-<p>Afficher le nom des joueurs qui jouent en position de milieu de terrain :</p>
+<section id="la-fonction-substr" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>La fonction substr</h2>
+<p>La fonction <font color="#188630"><code>substr</code></font> permet de tronquer une partie d’une chaîne de caractère.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">SUBSTR</span>(colonne, <span class="kw">start</span>, <span class="fu">length</span>)  </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tableau</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Afficher les initiales (deux premières lettres) des équipes nationales, sans les doublons:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Afficher le nom et le nombre de sélections des joueurs qui ont 30 sélections ou plus :</p>
+<div class="fragment fade-in">
+<p>Afficher les initiales</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT DISTINCT SUBSTR(team, 1, 2) AS initiales, team </span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players"</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Afficher le nom des joueurs qui portent le numéro 10 :</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section></section>
+<section>
+<section id="opérations-statistiques" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h1>Opérations statistiques</h1>
+
 </section>
-<section id="sélection-conditionnelle-2" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Sélection conditionnelle</h2>
-<div class="fragment fade-in-then-semi-out">
-<p>Affichons le nom des joueurs qui jouent en position de milieu de terrain :</p>
+<section id="les-fonctions-daggrégation" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>Les fonctions d’aggrégation</h2>
+<p>En SQL, les fonctions d’aggrégation sont très utiles et très souvent utilisées. Elles permettent de réaliser des <strong>premières opérations statistiques</strong> sur une base de données. Les fonctions d’aggrégation s’appliquent aux colonnes de nos tables :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> fonction(colonne)  </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tableau</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Pour compter le nombre d’observations dans notre table, on peut utiliser la requête :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT name </span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE position = 'Milieu'"</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT COUNT(*) AS total </span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<div class="fragment fade-in-then-semi-out">
-<p>Affichons le nom et le nombre de sélections des joueurs qui possédent 30 sélections ou plus :</p>
+<p>Calculons quelques données…</p>
+</section>
+<section id="les-fonctions-daggrégation-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>Les fonctions d’aggrégation</h2>
+<p>Quel est le nombre de sélections total ?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT name, played </span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE played &gt;= 30"</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<div class="fragment fade-in-then-semi-out">
-<p>Affichons le nom de joueurs qui portent le numéro 10 :</p>
+<p>Quel est le nombre de sélections moyen ?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT name </span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE number = 10"</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-</section>
-<section id="sélection-conditionnelle-3" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Sélection conditionnelle</h2>
-<p>Il est possible de combiner plusieurs conditions à l’aide des opérateurs <font color="#188630"><code>AND</code></font> et/ou <font color="#188630"><code>OR</code></font>.</p>
+<p>Quel est le nombre de milieu de terrain ?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> colonne_1, colonne_2</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tableau </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> colonne_1 opérateur condition </span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> colonne_2 opérateur condition </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="sélection-conditionnelle-4" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Sélection conditionnelle</h2>
-<p>Sélectionner les milieux de terrain avec plus de 30 sélections:</p>
+<p>Quel est le nombre de sélections moyen des capitaines ?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Sélectionner les capitaines qui portent le numéro 10 :</p>
+</section>
+<section id="les-fonctions-daggrégation-2" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>Les fonctions d’aggrégation</h2>
+<div class="fragment fade-in-then-semi-out">
+<p>Le nombre de sélections total :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT SUM(played) AS sum_played</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players"</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Extraire les capitaines ou ceux avec plus de + 100 sélections :</p>
+</div>
+<div class="fragment fade-in-then-semi-out">
+<p>Le nombre de sélections moyen :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT AVG(played) AS mean_played </span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players"</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="sélection-conditionnelle-5" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Sélection conditionnelle</h2>
+</div>
 <div class="fragment fade-in-then-semi-out">
-<p>Sélectionnons les milieux de terrain avec plus de 30 sélections :</p>
+<p>Le nombre de milieu de terrain :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT * </span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT COUNT(position) </span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE position = 'Milieu' AND played &gt; 30"</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE position = 'Milieu'"</span></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div class="fragment fade-in-then-semi-out">
-<p>Sélectionnons les capitaines qui portent le numéro 10 :</p>
+<p>Le nombre de sélections moyen des capitaines :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT * </span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE captain = 1 AND number = 10"</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT AVG(played) AS captain_mean </span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE captain = 1"</span></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div class="fragment fade-in-then-semi-out">
-<p>Extrayons les capitaines ou ceux avec + de 100 sélections :</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT name, captain, played </span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE captain = 1 OR played &gt; 100"</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</section>
-<section id="sélection-conditionnelle-6" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Sélection conditionnelle</h2>
-<p>Le langage SQL propose d’autres opérateurs pour réaliser des conditions.</p>
-<p>Parmi eux, les plus utilisés :</p>
-<ul>
-<li><p><font color="#188630"><code>(NOT) IN</code></font> : Pour tester une liste de plusieurs valeurs.</p></li>
-<li><p><font color="#188630"><code>(NOT) BETWEEN</code></font> : Pour tester une valeur au sein d’un intervalle.</p></li>
-<li><p><font color="#188630"><code>(NOT) LIKE</code></font> : Effectuer une recherche sur un mot.</p></li>
-<li><p><font color="#188630"><code>IS NULL</code></font> : Pour tester si une valeur est nulle.</p></li>
-<li><p><font color="#188630"><code>IS NOT NULL</code></font> : Pour tester si une valeur est non nulle.</p></li>
-</ul>
 </section></section>
 <section>
-<section id="in" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h1>IN</h1>
+<section id="group-by" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h1>GROUP BY</h1>
 
 </section>
-<section id="lopérateur-in" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>L’opérateur IN</h2>
-<p>L’opérateur <font color="#188630"><code>IN</code></font> vérifie si les valeurs d’une colonne sont <strong>égales à une des valeurs dans une liste donnée</strong>.</p>
-<p>L’opérateur <font color="#188630"><code>IN</code></font> permet d’éviter la répétition de l’opérateur <font color="#188630"><code>OR</code></font></p>
+<section id="regrouper-ses-observations" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>Regrouper ses observations</h2>
+<p>Pour utiliser pleinement la puissance des fonctions d’aggrégation, on utilise la commande <font color="#188630"><code>GROUP BY</code></font>.</p>
+<p>Cette instruction permet de regrouper nos <strong>observations identiques</strong> et d’appliquer la fonction d’aggréation sur ces groupes.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> colonne</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tableau</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> colonne <span class="kw">IN</span> (valeur_1, valeur_2, <span class="op">..</span>, valeur_x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> colonne, fonction(colonne)  </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tableau</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> colonne</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>En deux requêtes, une avec des opérateurs <font color="#188630"><code>OR</code></font> et l’autre avec l’opérateur <font color="#188630"><code>IN</code></font> :</p>
-<p>Extraire tous les joueurs évoluant dans les équipes nationales de France, Belgique, Espagne et Russie.</p>
 </section>
-<section id="lopérateur-in-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>L’opérateur IN</h2>
-<p>Avec l’opérateur <font color="#188630"><code>OR</code></font></p>
+<section id="group-by-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>GROUP BY</h2>
+<p>Quel est le nombre de joueurs par position ?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Combien y-a-t-il de joueurs par équipe ?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT * </span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE team = 'France'</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="st">    OR team = 'Belgique' </span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="st">    OR team = 'Espagne' </span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="st">    OR team = 'Russie'"</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Avec l’opérateur <font color="#188630"><code>IN</code></font></p>
+<p>Quel est le nombre de sélection moyen des capitaines et des non capitaines ? Trier par ordre décroissant de sélections</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT * </span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE team IN ('France', 'Belgique', 'Espagne', 'Russie')"</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>On préfère avec l’opérateur <font color="#188630"><code>IN</code></font> ! 😉</p>
-</section></section>
-<section>
-<section id="between" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h1>BETWEEN</h1>
-
 </section>
-<section id="lopérateur-between" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>L’opérateur BETWEEN</h2>
-<p>L’opérateur <font color="#188630"><code>BETWEEN</code></font> permet de filtrer dans un <strong>intervalle de données</strong>.</p>
-<p>L’intervalle peut être constitué de chaînes de caractères, de nombres ou de dates.</p>
-<p>Le plus souvent, on l’utilise sur les deux derniers formats : les nombres et les dates.</p>
+<section id="group-by-2" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>GROUP BY</h2>
+<div class="fragment fade-in-then-semi-out">
+<p>Le nombre de joueurs par position :</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> colonne</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tableau</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> colonne <span class="kw">BETWEEN</span> valeur_1 <span class="kw">AND</span> valeur_2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT position, COUNT(*) </span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="st">  GROUP BY position"</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Pour tester si une valeur n’intervient pas dans un intervalle, il faut écrire <font color="#188630"><code>NOT BETWEEN</code></font>.</p>
-</section>
-<section id="lopérateur-between-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>L’opérateur BETWEEN</h2>
-<p>Extraire les joueurs nés entre le 01 janvier 1990 (<em>1990-01-01</em>) et le 31 décembre 1994 (<em>1994-12-31</em>)</p>
+</div>
+<div class="fragment fade-in-then-semi-out">
+<p>Le nombre de joueurs par équipe :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT team, COUNT(*) </span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="st">  GROUP BY team"</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="fragment fade-in">
-<p>Extraction des joueurs nés entre le 01 janvier 1990 (<em>1990-01-01</em>) et le 31 décembre 1994 (<em>1994-12-31</em>)</p>
+</div>
+<div class="fragment fade-in-then-semi-out">
+<p>Le nombre de sélection moyen des capitaines et non capitaine, trier par ordre décroissant :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT * </span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT captain, AVG(played) AS avg_played </span></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE birth_date BETWEEN '1990-01-01' AND '1994-12-31'"</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="st">  GROUP BY captain</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="st">  ORDER BY avg_played DESC"</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section></section>
 <section>
-<section id="like" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h1>LIKE</h1>
-
-</section>
-<section id="lopérateur-like" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>L’opérateur LIKE</h2>
-<p>L’opérateur <font color="#188630"><code>LIKE</code></font> permet de filtrer une colonne selon un <em><strong>pattern</strong></em> donné. On l’utilise pour effectuer des recherches sur des mots, par exemple.</p>
+<section id="exercice-intermédiaire" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h1>Exercice intermédiaire</h1>
+<p>Mettons nos connaissances en pratique !</p>
+<p>Parmi les clubs suivants :<br>
+&nbsp; <em>Real Madrid, Barcelona, Arsenal, Chelsea, Liverpool, Juventus</em><br>
+&nbsp;</p>
+<p>Quel est le club qui a le plus de joueurs qui ont participé à la Coupe du Monde ? Calculer également le nombre de sélections moyen des joueurs appartenant à ces clubs. Trier du plus grand effectif au plus petit effectif.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tableau</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> colonne <span class="kw">LIKE</span> pattern</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>A l’inverse de l’opérateur de comparaison <font color="#188630"><code>=</code></font>, l’opérateur <font color="#188630"><code>LIKE</code></font> est plus maniable, notamment grâce à ces deux jokers :</p>
-<ul>
-<li><p><font color="#188630"><code>%</code></font> : remplace tous les autres caractères.</p></li>
-<li><p><font color="#188630"><code>_</code></font> : remplace <strong>un et uniquement un</strong> caractère.</p></li>
-</ul>
-<p><em>Vite, vite, voyons quelques exemples !</em></p>
 </section>
-<section id="lopérateur-like-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>L’opérateur LIKE</h2>
-<p>Sélectionnons tous les joueurs dont les noms commencent par la lettre “a” :</p>
+<section id="exercice-intermédiaire-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>Exercice intermédiaire</h2>
+<p>Correction :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT * </span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE name LIKE 'a%'"</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT club, COUNT(*) AS effectif, </span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="st">          AVG(played) AS 'Moyenne played'</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE club IN ('Real Madrid', 'Barcelona', 'Arsenal', </span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="st">                 'Chelsea', 'Liverpool', 'Juventus')</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="st">  GROUP BY club</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="st">  ORDER BY effectif DESC"</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="fragment fade-in-then-semi-out">
-<p>Sélectionnons tous les joueurs dont les noms terminent par la lettre “a” :</p>
+</section></section>
+<section>
+<section id="having" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h1>HAVING</h1>
+
+</section>
+<section id="la-clause-having" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>La clause HAVING</h2>
+<p>Imaginons que nous souhaitions filtrer les clubs qui avaient au moins 12 joueurs représentés à la Coupe du Monde. En SQL, c’est possible grâce à la condition <font color="#188630"><code>HAVING</code></font> !</p>
+<p>L’instruction <font color="#188630"><code>HAVING</code></font> est similaire à l’instruction <font color="#188630"><code>WHERE</code></font>, à ceci près que <font color="#188630"><code>HAVING</code></font> permet d’appliquer un filtre <strong>sur les fonctions d’aggrégation</strong>.</p>
+<p><em><small><font color="#848484"><code>L'instruction WHERE ne s'applique pas aux fonctions d'aggrégation !</code></font></small></em></p>
+<p><em><small><font color="#848484"><code>Les alias ne peuvent pas -toujours- être utilisés dans la condition HAVING</code></font></small></em></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT * </span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE name LIKE '%a'"</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-<div class="fragment fade-in-then-semi-out">
-<p>Sélectionnons tous les joueurs dont les noms contiennent la lettre “a” et également au moins un “c” :</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db,</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT * </span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE name LIKE '%a%c%'"</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> colonne_1, fonction(colonne_2) <span class="kw">AS</span> alias</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tableau</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> colonne_1</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="kw">HAVING</span> fonction(colonne_2) operateur valeur</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="lopérateur-like-2" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>L’opérateur LIKE</h2>
-<p>A vous !</p>
-<p>Sélectionner les joueurs qui contiennent les lettres “aa” dans leur prénom ou leur nom</p>
+<section id="la-clause-having-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>La clause HAVING</h2>
+<p>Plus concrètement ? 🤨</p>
+<p>Reprenons notre exercice précédent. Conservons les clubs avec au moins 12 joueurs représentés.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT club, COUNT(*) AS effectif, AVG(played) AS 'Moyenne played'</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE club IN ('Real Madrid', 'Barcelona', 'Arsenal', </span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="st">                 'Chelsea', 'Liverpool', 'Juventus')</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="st">  GROUP BY club</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="st">  HAVING effectif &gt;= 12</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="st">  ORDER BY effectif DESC"</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="la-clause-having-2" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>La clause HAVING</h2>
+<p><small><font color="#848484"><code>Un piège est glissé dans une des questions suivantes 😉</code></font></small></p>
+<p>1/ Quel est le nombre de joueurs par position ? Filtrer les positions ayant plus de 100 joueurs</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Sélectionner les joueurs dont la 4ème lettre est un “a”</p>
+<p>2/ Qui est le milieu de terrain né entre 1994-01-01 et 1994-03-31 et qui possède plus de 3 sélections ?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Sélectionner les milieux de terrain qui commencent par un “m”</p>
+<p>3/ Quels sont les clubs ayant uniquement 1 joueur représenté à cette compétition et dont le nom du club commence par un “S” ?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
@@ -731,222 +729,194 @@
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="lopérateur-like-3" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>L’opérateur LIKE</h2>
+<section id="la-clause-having-3" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>La clause HAVING</h2>
 <div class="fragment fade-in-then-semi-out">
-<p>Sélectionnons les joueurs qui contiennent les lettres “aa” dans leur prénom ou leur nom</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT * </span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT position, COUNT(*) AS total</span></span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE name LIKE '%aa%'"</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="st">  GROUP BY position </span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="st">  HAVING total &gt; 100"</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div class="fragment fade-in-then-semi-out">
-<p>Sélectionnons les joueurs dont la 4ème lettre est un “a”</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT * </span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE name LIKE '___a%'</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="st">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT name, position, birth_date</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE position = 'Milieu' </span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="st">    AND birth_date BETWEEN '1994-01-01' AND '1994-03-31'</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="st">    AND played &gt; 3"</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div class="fragment fade-in-then-semi-out">
-<p>Sélectionnons les milieux qui commencent par un “m”</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT * </span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT club, COUNT(*) AS effectif </span></span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE position = 'Milieu' </span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="st">  AND name LIKE 'm%'"</span></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE club LIKE 'S%'</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="st">  GROUP BY club </span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="st">  HAVING effectif = 1"</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section></section>
 <section>
-<section id="is-not-null" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h1>IS (NOT) NULL</h1>
+<section id="case-when" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h1>CASE … WHEN</h1>
 
 </section>
-<section id="les-opérateurs-is-null-is-not-null" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Les opérateurs IS NULL / IS NOT NULL</h2>
-<p>L’opérateur <font color="#188630"><code>IS</code></font> permet de tester si une valeur est <font color="#188630"><code>NULL</code></font> ou non, <font color="#188630"><code>NOT NULL</code></font>.</p>
-<p>C’est la <strong>seule façon</strong> de gérer les valeurs manquantes. Les valeurs manquantes ne sont pas gérées par les autres opérateurs de comparaisons.</p>
-<p>Mettons en pratiques ces deux opérateurs sur notre table !</p>
-<p>Sélectionner les joueurs dont la position sur le terrain est inconnue :</p>
+<section id="case-when-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>CASE … WHEN</h2>
+<p>En SQL, l’expression <font color="#188630"><code>CASE WHEN</code></font> permet de réaliser une condition de type : <font color="#c7254e"><code>SI ... SINON</code></font>.</p>
+<p>Cette opération permet notamment de <strong>créer une nouvelle variable (colonne)</strong>. Elle s’utilise <strong>avec les opérateurs de comparaisons</strong>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="cf">CASE</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">WHEN</span> colonne opérateur condition <span class="cf">THEN</span> <span class="ot">"valeur 1"</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">WHEN</span> colonne opérateur condition <span class="cf">THEN</span> <span class="ot">"valeur 2"</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">..</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">ELSE</span> <span class="ot">"valeur"</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">END</span> <span class="kw">AS</span> alias</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tableau</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="fragment fade-in">
-<p>Sélectionnons les joueurs dont la position sur le terrain est inconnue :</p>
+<p><em><small><font color="#848484"><code>A noter, la condition ELSE n'est pas obligatoire !</code></font></small></em></p>
+<p>Vite, vite un exemple !</p>
+</section>
+<section id="case-when-2" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>CASE … WHEN</h2>
+<p>Recodons la colonne <font color="#c7254e"><code>captain</code></font> de notre table <font color="#c7254e"><code>players</code></font>. Plutôt que des 0 et des 1, nous souhaitons avoir les valeurs suivantes : <font color="#c7254e"><code>capitaine</code></font> ou <font color="#c7254e"><code>non capitaine</code></font>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT * </span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE position IS NULL"</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT *, </span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="st">          CASE </span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="st">            WHEN captain = 1 THEN 'capitaine' </span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="st">            WHEN captain = 0 THEN 'pas capitaine' </span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="st">          END AS captain2 </span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players"</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-</section></section>
-<section>
-<section id="order-by" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h1>ORDER BY</h1>
-
-</section>
-<section id="order-by-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>ORDER BY</h2>
-<p>En SQL, il est possible de gérer dans notre requête, <strong>l’ordre de sortie des résultats</strong>.</p>
-<p>À l’aide de l’instruction <font color="#188630"><code>ORDER BY</code></font>, on peut trier les lignes d’une ou plusieurs colonnes par ordre croissant ou décroissant.</p>
-<p><em><small><font color="#848484"><code>À noter, par défaut, l'ordre d'affichage est toujours croissant !</code></font></small></em></p>
+<p>On peut aussi écrire :</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tableau</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> colonne <span class="kw">DESC</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT *, </span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="st">          CASE </span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="st">            WHEN captain = 1 THEN 'capitain' </span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="st">            ELSE 'pas capitaine' </span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="st">          END AS captain2 </span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players"</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Pour trier sur plusieurs colonnes, on les nomme dans l’instruction <font color="#188630"><code>ORDER BY</code></font> et on les sépare par des <font color="#c7254e"><code>,</code></font></p>
 </section>
-<section id="order-by-2" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>ORDER BY</h2>
-<p>Afficher le nom et le nombre de sélections des joueurs, de celui qui a le plus de sélections à celui qui en a le moins :</p>
+<section id="case-when-3" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>CASE … WHEN</h2>
+<p>Créer une colonne nommée <font color="#c7254e"><code>experience</code></font> qui contient : <code>joueur expérimenté</code> si le joueur a plus de 40 sélections ; <code>joueur confirmé</code> si le joueur a entre 20 et 40 sélections ; <code>jeune joueur</code> si le joueur a moins de 20 sélections.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Afficher le nom, le nombre de sélections et le numéro de maillot des joueurs, trier par ordre de sélections croissant et décroissant de maillot :</p>
+<p>Créer une colonne nommée <font color="#c7254e"><code>captain_exp</code></font> qui contient : <code>capitaine expérimenté</code> si le joueur est capitaine avec 40 ou + sélections ; <code>jeune capitaine</code> si le joueur est capitaine avec moins de 40 sélections. Idem avec les non capitaines : <code>jeune joueur</code> et <code>joueur expérimenté</code></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Afficher le nom, le nombre de sélections des 3 milieux de terrain qui ont le plus de sélections :</p>
+</section>
+<section id="case-when-4" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>CASE … WHEN</h2>
+<div class="fragment fade-in-then-semi-out">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT *, </span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="st">          CASE </span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="st">            WHEN played &gt; 40 THEN 'joueur expérimenté'</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="st">            WHEN played BETWEEN 20 AND 40 THEN 'joueur confirmé'</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="st">            ELSE 'jeune joueur' </span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="st">          END AS experience</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="st">  ORDER BY played"</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="order-by-3" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>ORDER BY</h2>
-<div class="fragment fade-in">
-<p>Affichons le nom et le nombre de sélections des joueurs, de celui qui a le plus de sélections à celui qui en a le moins :</p>
+</div>
+<div class="fragment fade-in-then-semi-out">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT name, played </span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="st">  ORDER BY played DESC"</span></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db,</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT *, </span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="st">          CASE </span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="st">            WHEN played &gt;= 40 AND captain = 1 THEN 'capitaine expérimenté'</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="st">            WHEN played &lt; 40 AND captain = 1 THEN 'jeune capitaine'</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="st">            WHEN played &gt;= 40 AND captain = 0 THEN 'joueur expérimenté'</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="st">            WHEN played &lt; 40 AND captain = 0 THEN 'jeune joueur' </span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="st">          END AS captain_exp</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a><span class="st">  ORDER BY played"</span></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div class="fragment fade-in">
-<p>Affichons le nom, le nombre de sélections et le numéro de maillot des joueurs, trier par ordre de sélections croissant et décroissant de maillot :</p>
+</section>
+<section id="exercice-récapitulatif" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>Exercice récapitulatif</h2>
+<p>Créer une colonne <font color="#c7254e"><code>continent</code></font> qui regroupe les continents :</p>
+<p><em><small><code>Europe</code> : Croatie, Espagne, Pays-Bas, Grece, Angleterre, Italie, France, Suisse, Bosnie-Herzegovine, Allemagne, Portugal, Belgique </small></em></p>
+<p><em><small><code>Afrique</code> : Cameroun, Cote d’Ivoire, Nigeria, Ghana, Algerie </small></em></p>
+<p><em><small><code>Amérique</code> : Brésil, Mexique, Chili, Colombie, Costa Rica, Uruguay, Equateur, Honduras, Argentine, Etats-Unis</small></em></p>
+<p><em><small><code>Asie</code> : Japon, Iran, Coree du Sud, Russie</small></em></p>
+<p><em><small><code>Océanie</code> : Australie</small></em></p>
+<p>Puis, pour chacun des continents, compter le nombre de joueurs et de sélections totales. Trier du continent avec le plus de sélections à celui avec le moins. Exclure les continents avec moins de 1200 sélections.</p>
+</section>
+<section id="exercice-récapitulatif-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>Exercice récapitulatif</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT name, played, number </span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="st">  ORDER BY number DESC, played"</span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT CASE </span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="st">        WHEN team IN ('Cameroun', 'Cote d''Ivoire', 'Nigeria', </span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="st">                     'Ghana', 'Algerie') THEN 'Afrique'</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="st">        WHEN team = 'Australie' THEN 'Océanie'</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="st">        WHEN team IN ('Brésil', 'Mexique', 'Chili', 'Colombie', </span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="st">                     'Costa Rica', 'Uruguay', 'Equateur', </span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="st">                     'Honduras', 'Argentine', </span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="st">                     'Etats-Unis') THEN 'Amérique'</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a><span class="st">        WHEN team IN ('Japon', 'Iran', 'Coree du Sud', </span></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a><span class="st">                     'Russie') THEN 'Asie'</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a><span class="st">        ELSE 'Europe'</span></span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a><span class="st">        END AS continent, COUNT(*) AS n_joueurs, SUM(played) AS sum_selec</span></span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players</span></span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a><span class="st">  GROUP BY continent</span></span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a><span class="st">  HAVING SUM(played) &gt; 1200</span></span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a><span class="st">  ORDER BY sum_selec DESC"</span></span>
+<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<div class="fragment fade-in">
-<p>Affichons le nom, le nombre de sélections des 3 milieux de terrain qui ont le plus de sélections :</p>
+</section>
+<section id="synthèse" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>Synthèse</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT name, played </span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players</span></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE position = 'Milieu' </span></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="st">  ORDER BY played DESC </span></span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="st">  LIMIT 3"</span></span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</section></section>
-<section>
-<section id="exercice-récapitulatif" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h1>Exercice récapitulatif</h1>
-
-</section>
-<section id="en-sql" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>En SQL…</h2>
-<p>1/ Afficher les joueurs ayant un id entre 200 et 300 et dont le nom se termine par un “n”.</p>
-<p>2/ Afficher les joueurs évoluant dans les équipes suivantes : Real Madrid, Barcelona et Arsenal et dont la position n’est pas renseignée.</p>
-<p>3/ Afficher le capitaine qui possédent le plus de sélections.</p>
-<p>4/ Afficher les capitaines avec plus de 100 sélections ou les numéros 10 avec plus de 50 sélections.</p>
-</section>
-<section id="correction" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Correction</h2>
-<p>Affichons les joueurs ayant un id entre 200 et 300 et dont le nom se termine par un “n”.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT *</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE id BETWEEN 200 AND 300 </span></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="st">    AND name LIKE '%n'"</span></span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> [ <span class="kw">DISTINCT</span> ] : Sélectionne des variables [Affiche sans doublons]</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span>     : Précise le tableau dans laquelle se trouve les données</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span>    : Filtre les données selon une ou plusieurs conditions</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> : Regroupe les modalités d<span class="st">''</span>une variable</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="kw">HAVING</span>   : Ajoute un filtre sur une fonction d<span class="st">''</span>aggrégation</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> : Ordonne une ou plusieurs colonnes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="correction-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Correction</h2>
-<p>Affichons les joueurs évoluant dans les équipes suivantes : Real Madrid, Barcelona et Arsenal et dont la position n’est pas renseignée.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT *</span></span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players</span></span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE club IN ('Real Madrid', 'Barcelona', 'Arsenal') </span></span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="st">    AND position IS NULL"</span></span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="correction-2" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Correction</h2>
-<p>Affichons le capitaine qui possédent le plus de sélections.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT *</span></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players</span></span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE captain = 1</span></span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="st">  ORDER BY played DESC</span></span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="st">  LIMIT 1"</span></span>
-<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="correction-3" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Correction</h2>
-<p>Affichons les capitaines avec plus de 100 sélections ou les numéros 10 avec plus de 50 sélections.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db, </span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT *</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players</span></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE captain = 1 AND played &gt; 100 </span></span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="st">    OR number = 10 AND played &gt; 50"</span></span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="place-aux-agrégations" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Place aux agrégations !</h2>
-<p>La suite: <a href="https://sql.breant.art/aggregate">Agréger des données</a></p>
+<section id="continuons" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>Continuons !</h2>
+<p>La suite : <a href="">Agréger des données, la suite !</a></p>
 
 <img src="../_extensions/ArthurData/lille-univ/logo.jpg" class="slide-logo r-stretch"><div class="footer footer-default">
-<p><strong>Filtrer des données</strong></p>
+<p><strong>Agréger des données</strong></p>
 </div>
 </section></section>
     </div>
