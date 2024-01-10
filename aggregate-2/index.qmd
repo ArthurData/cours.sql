@@ -43,7 +43,7 @@ Une sous-requête en SQL doit **s'écrire dans des parenthèses** afin d'en déf
 
 Dans la plupart des SGDB, il est obligatoire de **donner un alias à sa table**.
 
-`r emo::ji("warning")` Les colonnes que nous utilisons, doivent être **présentes dans les tables intermédiaires**.
+&#x26A0; Les colonnes que nous utilisons, doivent être **présentes dans les tables intermédiaires**.
 
 ```{r}
 #| echo: true
