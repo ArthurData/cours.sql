@@ -49,6 +49,11 @@ jobs:
         with:
           path: aggregate/index.qmd
 
+      - name: Render aggregate slides
+        uses: quarto-dev/quarto-actions/render@v2
+        with:
+          path: aggregate-2/index.qmd
+
       - name: Create CNAME to _slides folder
         run: echo 'sql.breant.art' > _slides/CNAME
 

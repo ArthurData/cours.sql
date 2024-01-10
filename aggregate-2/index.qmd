@@ -1,0 +1,246 @@
+---
+title: Agréger des données, la suite...
+format:
+  lille-univ-revealjs: default
+author: Arthur Bréant
+---
+
+# Sous-requêtes
+
+## Réaliser des sous-requêtes
+
+En SQL, nous pouvons **imbriquer des requêtes**. Ceci nous permet notamment, de faire en une requête, ce qui aurait pu - éventuellement - en demander plusieurs.
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT colonne1, colonne2
+FROM (
+  SELECT *
+  FROM tableau
+)
+```
+
+## Réaliser des sous-requêtes
+
+Par example :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db,
+  " SELECT name, min(played)
+  FROM (
+    SELECT *
+    FROM players
+    WHERE team = 'France'
+  ) AS players"
+)
+```
+
+## Réaliser des sous-requêtes
+
+Une sous-requête en SQL doit **s'écrire dans des parenthèses** afin d'en définir les limites. 
+
+Dans la plupart des SGDB, il est obligatoire de **donner un alias à sa table**.
+
+`r emo::ji("warning")` Les colonnes que nous utilisons, doivent être **présentes dans les tables intermédiaires**.
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db,
+  "SELECT name
+  FROM (
+    SELECT played, team
+    FROM players
+  ) AS players"
+)
+
+Error: no such column: name
+```
+
+## Réaliser des sous-requêtes
+
+Il est aussi possible de les réaliser au moment du <font color="#188630">`WHERE`</font>
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT *
+FROM tableau 
+WHERE colonne operateur (
+  SELECT colonne
+  FROM tableau2
+)
+```
+
+## Réaliser des sous-requêtes
+
+Sélectionnons tous les joueurs dont le nombre de sélections est supérieur à la moyenne :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db,
+  "SELECT *
+  FROM players 
+  WHERE played > AVG(played)"
+)
+
+Error: misuse of aggregate function AVG()
+```
+
+Mais on peut le faire avec une sous-requête :
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db,
+  "SELECT id, name, played
+  FROM players 
+  WHERE played > (SELECT AVG(played) FROM players)"
+)
+```
+
+## Réaliser des sous-requêtes
+
+Calculer la moyenne des titularisations totales par `team`.
+
+(Calculer la somme de titularisations par `team`, puis calculer la moyenne des titularisations par `team`.)
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db,
+  "?"
+)
+```
+
+## Réaliser des sous-requêtes
+
+
+Calculons la somme de titularisations par `team`, puis calculer la moyenne des titularisations par `team`.
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db,
+  "SELECT AVG(titularisations) AS team_titularisation
+  FROM (
+    SELECT team, SUM(played) AS titularisations
+    FROM players
+    GROUP BY team
+  )"
+)
+```
+
+# Quelques fonctions supplémentaires...
+
+## RANK
+
+Avec les sous-requêtes, nous pouvons maintenant explorer quelques fonctions plus avancées du SQL...
+
+La fonction <font color="#188630">`RANK`</font> permet d'assigner un rang (un classement).
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT *, RANK() OVER (ORDER BY colonne_tri) AS alias
+FROM tableau
+```
+
+Faire un classement des pays, de celui qui a le plus de sélections à celui avec le moins.
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db,
+  "?"
+)
+```
+
+## RANK
+
+Classement des pays, de celui qui a le plus de sélections à celui avec le moins.
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db,
+  "SELECT team, sum(played) AS titu, 
+        RANK() OVER (ORDER BY sum(played) DESC) AS rank
+  FROM players
+  GROUP BY team
+  ORDER BY rank"
+)
+```
+
+\ 
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db,
+  "
+  SELECT team, titu, RANK() OVER (ORDER BY titu DESC) AS rank
+  FROM (
+    SELECT team, sum(played) AS titu
+    FROM players
+    GROUP BY team
+  )
+  ORDER BY rank"
+)
+```
+
+## LAG / LEAD
+
+<font color="#188630">`LAG`</font> et <font color="#188630">`LEAD`</font> sont des fonctions très souvent utilisées. 
+
+Elles permettent, pour une colonne sélectionnée, de respectivement :
+
+Récupérer la valeur précédente : <font color="#188630">`LAG`</font>
+
+Récupérer la valeur suivante :  <font color="#188630">`LEAD`</font>
+
+```{sql, eval=FALSE}
+SELECT *, LAG(colonne_selectionnee) OVER (ORDER BY colonne_tri) AS alias
+FROM tableau
+```
+
+
+## Exercice récapitulatif 
+
+1/ Faire un classement des pays, de celui qui a le plus de sélections à celui avec le moins
+
+2/ Trier le tableau sur ce classement, par ordre croissant
+
+3/ Pour les équipes, récupérer la somme de sélections de la sélection suivante
+
+4/ Faire la différence entre ces deux valeurs (somme sélection - somme sélection de l'équipe suivante)
+
+## Exercice récapitulatif
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  conn = db,
+  "
+  SELECT *, (titu - team_played_after) AS diff
+  FROM (
+    SELECT team, 
+           titu,
+           RANK() OVER (ORDER BY titu DESC) AS rank,
+           LAG(titu) OVER (ORDER BY titu) AS team_played_after
+    FROM (
+      SELECT team, sum(played) AS titu
+      FROM players
+      GROUP BY team
+    )
+  )"
+)
+```

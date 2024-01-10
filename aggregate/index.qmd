@@ -659,5 +659,5 @@ ORDER BY : Ordonne une ou plusieurs colonnes
 
 ## Continuons !
 
-La suite : [Agréger des données, la suite !]()
+La suite : [Agréger des données, la suite !](https://sql.breant.art/aggregate-2)
 
