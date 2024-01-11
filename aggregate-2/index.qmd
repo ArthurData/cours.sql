@@ -244,3 +244,7 @@ dbGetQuery(
   )"
 )
 ```
+
+## Place aux jointures !
+
+La suite: [Joindre des données](https://sql.breant.art/join)

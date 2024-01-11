@@ -28,6 +28,7 @@ jobs:
             any::readr
             any::DBI
             any::RSQLite
+            any::dplyr
 
       - name: Render home slides
         uses: quarto-dev/quarto-actions/render@v2
@@ -53,6 +54,11 @@ jobs:
         uses: quarto-dev/quarto-actions/render@v2
         with:
           path: aggregate-2/index.qmd
+
+      - name: Render join slides
+        uses: quarto-dev/quarto-actions/render@v2
+        with:
+          path: join/index.qmd
 
       - name: Create CNAME to _slides folder
         run: echo 'sql.breant.art' > _slides/CNAME

@@ -1,0 +1,276 @@
+---
+title: Les jointures
+format:
+  lille-univ-revealjs: default
+author: Arthur Bréant
+---
+
+# Les jointures
+
+## Les jointures SQL
+
+En SQL, les jointures permettent de relier les différentes tables de notre base de données. Pour rappel, une table enregistre des données d'un domaine bien précis. 
+
+Réaliser des jointures entre nos tables permet donc d'**exploiter la puissance d'une base de données relationnelle**. Cela permet de réunir les différentes informations contenues dans notre base.
+
+Il est possible de **réaliser une, ou plusieurs jointures dans la même requête SQL**.
+
+Pour réaliser une jointure, il faut repérer la **clé commune** aux deux tables.
+La jointure doit se faire entre une clé primaire _(primary key)_ et une clé étrangère _(foreign key)_.
+
+## Rappel
+
+## ![](../www/images/table.png)
+
+## ![](../www/images/tables.png)
+
+## Avant de commencer...
+
+Avant d'attaquer les jointures, récupèrons des données pour nous entrainer :
+
+```{r}
+#| echo: true
+#| eval: false
+install.packages("dplyr")
+library(dplyr)
+```
+
+```{r}
+#| echo: false
+#| eval: true
+library(dplyr)
+```
+
+\ 
+
+```{r}
+#| echo: true
+#| eval: true
+band_members
+band_instruments
+```
+
+## Création des tables
+
+Mettons ces tables dans notre base de données : 
+
+```{r}
+#| eval: false
+#| echo: true
+dbWriteTable(
+  db,
+  "band_members",
+  band_members
+)
+```
+
+\ 
+
+```{r}
+#| eval: false
+#| echo: true
+dbWriteTable(
+  db,
+  "band_instruments",
+  band_instruments
+)
+```
+
+## Let's go !
+
+# INNER JOIN
+
+## INNER JOIN
+
+![](../www/images/inner_join_venn.png)  
+
+La jointure interne <font color="#188630">`INNER JOIN`</font> est la plus courante en SQL. Elle permet de faire une jointure quand une **valeur de la colonne clé est présente dans les deux tables**. 
+
+## INNER JOIN
+
+![](../www/images/inner_join.png)
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT *
+FROM table1
+INNER JOIN table2 
+  ON table1.key = table2.fk_key
+```
+
+Vite, vite un exemple...
+
+## INNER JOIN 
+
+```{r}
+#| eval: false
+#| echo: true
+dbGetQuery(
+  db,
+  "SELECT bm.name, bm.band, bi.plays
+    FROM band_members AS bm
+    INNER JOIN band_instruments AS bi
+        ON bm.name = bi.name"
+)
+```
+
+# LEFT JOIN 
+
+## LEFT JOIN
+
+![](../www/images/left_join_venn.png)
+
+La jointure externe <font color="#188630">`LEFT JOIN`</font> permet de retourner **tous les enregistrements de la table de gauche même s'ils ne sont pas présents dans l'autre table, à droite.**. 
+
+## LEFT JOIN
+
+![](../www/images/left_join.png) 
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT *
+FROM table1 LEFT JOIN table2 
+  ON table1.id = table2.fk_id
+```
+
+## LEFT JOIN
+
+```{r}
+#| eval: false
+#| echo: true
+dbGetQuery(
+  db,
+  "SELECT bm.name, bm.band, bi.plays
+    FROM band_members AS bm
+    LEFT JOIN band_instruments AS bi
+        ON bm.name = bi.name"
+)
+```
+
+# RIGHT JOIN
+
+## RIGHT JOIN
+
+![](../www/images/right_join_venn.png) 
+
+La jointure externe <font color="#188630">`RIGHT JOIN`</font> permet de retourner **tous les enregistrements de la table de droite même s'ils ne sont pas présents dans l'autre table, à gauche.**. 
+
+## RIGHT JOIN
+
+![](../www/images/right_join.png) 
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT *
+FROM table1 LEFT JOIN table2 
+  ON table1.id = table2.fk_id
+```
+
+&#x26A0; RIGHT JOIN ne fonctionne pas dans tous les SGBD !
+
+# FULL JOIN
+
+## FULL JOIN
+
+![](../www/images/full_join_venn.png) 
+
+La jointure externe <font color="#188630">`FULL JOIN`</font> permet de retourner **tous les enregistrements des deux tables**. 
+
+## FULL JOIN 
+
+![](../www/images/full_join.png) 
+
+```{sql, eval=FALSE, echo=TRUE}
+SELECT *
+FROM table1 
+FULL JOIN table2 
+  ON table1.id = table2.fk_id
+```
+
+&#x26A0; Idem pour FULL JOIN, ne fonctionne dans SQLite.
+
+# Exercice récapitulatif
+
+Nous allons créer des nouvelles tables :
+
+```{r}
+#| echo: true
+#| eval: false
+etudiants <- tibble(
+  id = 1:10,
+  name = c("Lucas", "Alice", "Bob", "Charlie", "David", "Eva", "Frank", "Grace", "Hank", "Ivy"),
+  civility = sample(c("Homme", "Femme"), 10, replace = TRUE)
+)
+
+dbWriteTable(db, "etudiants", etudiants)
+```
+
+\  
+
+::: {.columns}
+::: {.column width="50%"}
+```{r}
+#| echo: true
+#| eval: false
+mentions <- tibble(
+  id = 1:5,
+  mention = c("Très bien", "Bien", "Assez bien", "Passable", "Insuffisant")
+)
+dbWriteTable(db, "mentions", mentions)
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+#| echo: true
+#| eval: false
+notes <- tibble(
+  etudiant_id = 1:10,
+  mention_id = c(4, 2, 5, 5, 3, 1, 5, 2, 3, 2),
+  note = c(11, 17, 9, 7, 14, 19, 5, 16, 12, 15)
+)
+dbWriteTable(db, "notes", notes)
+```
+:::
+:::
+
+2 questions :
+
+1) Quelles sont les étudiants avec le nom ayant reçu une mention bien et très bien ?
+2) Quelle est la répartition des mentions selon le genre des étudiants ?
+
+## Exercice récapitulatif
+
+Les étudiants avec le nom ayant reçu une mention bien et très bien
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  db,
+  "SELECT e.id, e.name, n.note, m.mention
+    FROM etudiants AS e
+    INNER JOIN notes AS n
+      ON e.id = n.etudiant_id
+    INNER JOIN mentions AS m
+      ON n.mention_id = m.id
+    WHERE m.mention IN ('Bien', 'Très bien')"
+)
+```
+
+\ 
+
+Répartition des mentions selon le genre des étudiants
+
+```{r}
+#| echo: true
+#| eval: false
+dbGetQuery(
+  db,
+  "SELECT e.civility, m.mention, COUNT(*) as nombre
+    FROM etudiants AS e
+    INNER JOIN notes AS n
+      ON e.id = n.etudiant_id
+    INNER JOIN mentions AS m
+      ON n.mention_id = m.id
+    GROUP BY e.civility, m.mention
+    ORDER BY e.civility, m.mention"
+)
+```
