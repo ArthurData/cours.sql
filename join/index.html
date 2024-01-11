@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.3.450">
 
   <meta name="author" content="Arthur Bréant">
-  <title>Agréger des données, la suite…</title>
+  <title>Les jointures</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -393,211 +393,261 @@
 <section id="title-slide" data-background-image="../_extensions/ArthurData/lille-univ/large-sidebar.png" data-background-position="left" data-background-size="50% 100%" class="center">
   <div class="flex-section">
     <div class="half-section">
-      <h1 class="title">Agréger des données, la suite…</h1>
+      <h1 class="title">Les jointures</h1>
                   <p class="author">Arthur Bréant</p>
                       </div>
   </div>
 </section>
 <section>
-<section id="sous-requêtes" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h1>Sous-requêtes</h1>
+<section id="les-jointures" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h1>Les jointures</h1>
 
 </section>
-<section id="réaliser-des-sous-requêtes" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Réaliser des sous-requêtes</h2>
-<p>En SQL, nous pouvons <strong>imbriquer des requêtes</strong>. Ceci nous permet notamment, de faire en une requête, ce qui aurait pu - éventuellement - en demander plusieurs.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> colonne1, colonne2</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> (</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> <span class="op">*</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> tableau</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="les-jointures-sql" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>Les jointures SQL</h2>
+<p>En SQL, les jointures permettent de relier les différentes tables de notre base de données. Pour rappel, une table enregistre des données d’un domaine bien précis.</p>
+<p>Réaliser des jointures entre nos tables permet donc d’<strong>exploiter la puissance d’une base de données relationnelle</strong>. Cela permet de réunir les différentes informations contenues dans notre base.</p>
+<p>Il est possible de <strong>réaliser une, ou plusieurs jointures dans la même requête SQL</strong>.</p>
+<p>Pour réaliser une jointure, il faut repérer la <strong>clé commune</strong> aux deux tables. La jointure doit se faire entre une clé primaire <em>(primary key)</em> et une clé étrangère <em>(foreign key)</em>.</p>
 </section>
-<section id="réaliser-des-sous-requêtes-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Réaliser des sous-requêtes</h2>
-<p>Par example :</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">" SELECT name, min(played)</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM (</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT *</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM players</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="st">    WHERE team = 'France'</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="st">  ) AS players"</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="rappel" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>Rappel</h2>
 </section>
-<section id="réaliser-des-sous-requêtes-2" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Réaliser des sous-requêtes</h2>
-<p>Une sous-requête en SQL doit <strong>s’écrire dans des parenthèses</strong> afin d’en définir les limites.</p>
-<p>Dans la plupart des SGDB, il est obligatoire de <strong>donner un alias à sa table</strong>.</p>
-<p>⚠ Les colonnes que nous utilisons, doivent être <strong>présentes dans les tables intermédiaires</strong>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT name</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM (</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT played, team</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM players</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="st">  ) AS players"</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>Error<span class="sc">:</span> no such column<span class="sc">:</span> name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="section" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2><img data-src="../www/images/table.png"></h2>
 </section>
-<section id="réaliser-des-sous-requêtes-3" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Réaliser des sous-requêtes</h2>
-<p>Il est aussi possible de les réaliser au moment du <font color="#188630"><code>WHERE</code></font></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tableau </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> colonne operateur (</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> colonne</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> tableau2</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="section-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2><img data-src="../www/images/tables.png"></h2>
 </section>
-<section id="réaliser-des-sous-requêtes-4" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Réaliser des sous-requêtes</h2>
-<p>Sélectionnons tous les joueurs dont le nombre de sélections est supérieur à la moyenne :</p>
+<section id="avant-de-commencer" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>Avant de commencer…</h2>
+<p>Avant d’attaquer les jointures, récupèrons des données pour nous entrainer :</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT *</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE played &gt; AVG(played)"</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>Error<span class="sc">:</span> misuse of aggregate <span class="cf">function</span> <span class="fu">AVG</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Mais on peut le faire avec une sous-requête :</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT id, name, played</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players </span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="st">  WHERE played &gt; (SELECT AVG(played) FROM players)"</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="réaliser-des-sous-requêtes-5" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Réaliser des sous-requêtes</h2>
-<p>Calculer la moyenne des titularisations totales par <code>team</code>.</p>
-<p>(Calculer la somme de titularisations par <code>team</code>, puis calculer la moyenne des titularisations par <code>team</code>.)</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="réaliser-des-sous-requêtes-6" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Réaliser des sous-requêtes</h2>
-<p>Calculons la somme de titularisations par <code>team</code>, puis calculer la moyenne des titularisations par <code>team</code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT AVG(titularisations) AS team_titularisation</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM (</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT team, SUM(played) AS titularisations</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM players</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="st">    GROUP BY team</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="st">  )"</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section></section>
-<section>
-<section id="quelques-fonctions-supplémentaires" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h1>Quelques fonctions supplémentaires…</h1>
-
-</section>
-<section id="rank" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>RANK</h2>
-<p>Avec les sous-requêtes, nous pouvons maintenant explorer quelques fonctions plus avancées du SQL…</p>
-<p>La fonction <font color="#188630"><code>RANK</code></font> permet d’assigner un rang (un classement).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span>, <span class="fu">RANK</span>() <span class="kw">OVER</span> (<span class="kw">ORDER</span> <span class="kw">BY</span> colonne_tri) <span class="kw">AS</span> alias</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tableau</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Faire un classement des pays, de celui qui a le plus de sélections à celui avec le moins.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"?"</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="rank-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>RANK</h2>
-<p>Classement des pays, de celui qui a le plus de sélections à celui avec le moins.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db,</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT team, sum(played) AS titu, </span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="st">        RANK() OVER (ORDER BY sum(played) DESC) AS rank</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM players</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="st">  GROUP BY team</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="st">  ORDER BY rank"</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"dplyr"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>&nbsp;</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db,</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="st">  SELECT team, titu, RANK() OVER (ORDER BY titu DESC) AS rank</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM (</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT team, sum(played) AS titu</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM players</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="st">    GROUP BY team</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="st">  )</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="st">  ORDER BY rank"</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>band_members</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  name  band   
+  &lt;chr&gt; &lt;chr&gt;  
+1 Mick  Stones 
+2 John  Beatles
+3 Paul  Beatles</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>band_instruments</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  name  plays 
+  &lt;chr&gt; &lt;chr&gt; 
+1 John  guitar
+2 Paul  bass  
+3 Keith guitar</code></pre>
+</div>
 </div>
 </section>
-<section id="lag-lead" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>LAG / LEAD</h2>
-<p><font color="#188630"><code>LAG</code></font> et <font color="#188630"><code>LEAD</code></font> sont des fonctions très souvent utilisées.</p>
-<p>Elles permettent, pour une colonne sélectionnée, de respectivement :</p>
-<p>Récupérer la valeur précédente : <font color="#188630"><code>LAG</code></font></p>
-<p>Récupérer la valeur suivante : <font color="#188630"><code>LEAD</code></font></p>
+<section id="création-des-tables" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>Création des tables</h2>
+<p>Mettons ces tables dans notre base de données :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbWriteTable</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  db,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"band_members"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  band_members</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>&nbsp;</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbWriteTable</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  db,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"band_instruments"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  band_instruments</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="exercice-récapitulatif" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Exercice récapitulatif</h2>
-<p>1/ Faire un classement des pays, de celui qui a le plus de sélections à celui avec le moins</p>
-<p>2/ Trier le tableau sur ce classement, par ordre croissant</p>
-<p>3/ Pour les équipes, récupérer la somme de sélections de la sélection suivante</p>
-<p>4/ Faire la différence entre ces deux valeurs (somme sélection - somme sélection de l’équipe suivante)</p>
+<section id="lets-go" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>Let’s go !</h2>
+</section></section>
+<section>
+<section id="inner-join" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h1>INNER JOIN</h1>
+
+</section>
+<section id="inner-join-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>INNER JOIN</h2>
+
+<img data-src="../www/images/inner_join_venn.png" class="r-stretch"><p>La jointure interne <font color="#188630"><code>INNER JOIN</code></font> est la plus courante en SQL. Elle permet de faire une jointure quand une <strong>valeur de la colonne clé est présente dans les deux tables</strong>.</p>
+</section>
+<section id="inner-join-2" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>INNER JOIN</h2>
+
+<img data-src="../www/images/inner_join.png" class="r-stretch"><div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> table1</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">INNER</span> <span class="kw">JOIN</span> table2 </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> table1.<span class="kw">key</span> <span class="op">=</span> table2.fk_key</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Vite, vite un exemple…</p>
+</section>
+<section id="inner-join-3" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>INNER JOIN</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  db,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT bm.name, bm.band, bi.plays</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM band_members AS bm</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="st">    INNER JOIN band_instruments AS bi</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="st">        ON bm.name = bi.name"</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section></section>
+<section>
+<section id="left-join" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h1>LEFT JOIN</h1>
+
+</section>
+<section id="left-join-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>LEFT JOIN</h2>
+
+<img data-src="../www/images/left_join_venn.png" class="r-stretch"><p>La jointure externe <font color="#188630"><code>LEFT JOIN</code></font> permet de retourner <strong>tous les enregistrements de la table de gauche même s’ils ne sont pas présents dans l’autre table, à droite.</strong>.</p>
+</section>
+<section id="left-join-2" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>LEFT JOIN</h2>
+
+<img data-src="../www/images/left_join.png" class="r-stretch"><div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> table1 <span class="kw">LEFT</span> <span class="kw">JOIN</span> table2 </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> table1.<span class="kw">id</span> <span class="op">=</span> table2.fk_id</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="left-join-3" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>LEFT JOIN</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  db,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT bm.name, bm.band, bi.plays</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM band_members AS bm</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="st">    LEFT JOIN band_instruments AS bi</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="st">        ON bm.name = bi.name"</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section></section>
+<section>
+<section id="right-join" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h1>RIGHT JOIN</h1>
+
+</section>
+<section id="right-join-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>RIGHT JOIN</h2>
+
+<img data-src="../www/images/right_join_venn.png" class="r-stretch"><p>La jointure externe <font color="#188630"><code>RIGHT JOIN</code></font> permet de retourner <strong>tous les enregistrements de la table de droite même s’ils ne sont pas présents dans l’autre table, à gauche.</strong>.</p>
+</section>
+<section id="right-join-2" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>RIGHT JOIN</h2>
+
+<img data-src="../www/images/right_join.png" class="r-stretch"><div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> table1 <span class="kw">LEFT</span> <span class="kw">JOIN</span> table2 </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> table1.<span class="kw">id</span> <span class="op">=</span> table2.fk_id</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>⚠ RIGHT JOIN ne fonctionne pas dans tous les SGBD !</p>
+</section></section>
+<section>
+<section id="full-join" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h1>FULL JOIN</h1>
+
+</section>
+<section id="full-join-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>FULL JOIN</h2>
+
+<img data-src="../www/images/full_join_venn.png" class="r-stretch"><p>La jointure externe <font color="#188630"><code>FULL JOIN</code></font> permet de retourner <strong>tous les enregistrements des deux tables</strong>.</p>
+</section>
+<section id="full-join-2" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h2>FULL JOIN</h2>
+
+<img data-src="../www/images/full_join.png" class="r-stretch"><div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> table1 </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FULL</span> <span class="kw">JOIN</span> table2 </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> table1.<span class="kw">id</span> <span class="op">=</span> table2.fk_id</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>⚠ Idem pour FULL JOIN, ne fonctionne dans SQLite.</p>
+</section></section>
+<section>
+<section id="exercice-récapitulatif" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
+<h1>Exercice récapitulatif</h1>
+<p>Nous allons créer des nouvelles tables :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>etudiants <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Lucas"</span>, <span class="st">"Alice"</span>, <span class="st">"Bob"</span>, <span class="st">"Charlie"</span>, <span class="st">"David"</span>, <span class="st">"Eva"</span>, <span class="st">"Frank"</span>, <span class="st">"Grace"</span>, <span class="st">"Hank"</span>, <span class="st">"Ivy"</span>),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">civility =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Homme"</span>, <span class="st">"Femme"</span>), <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">dbWriteTable</span>(db, <span class="st">"etudiants"</span>, etudiants)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>&nbsp;</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>mentions <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mention =</span> <span class="fu">c</span>(<span class="st">"Très bien"</span>, <span class="st">"Bien"</span>, <span class="st">"Assez bien"</span>, <span class="st">"Passable"</span>, <span class="st">"Insuffisant"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dbWriteTable</span>(db, <span class="st">"mentions"</span>, mentions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>notes <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">etudiant_id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mention_id =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">2</span>),</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">note =</span> <span class="fu">c</span>(<span class="dv">11</span>, <span class="dv">17</span>, <span class="dv">9</span>, <span class="dv">7</span>, <span class="dv">14</span>, <span class="dv">19</span>, <span class="dv">5</span>, <span class="dv">16</span>, <span class="dv">12</span>, <span class="dv">15</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">dbWriteTable</span>(db, <span class="st">"notes"</span>, notes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>2 questions :</p>
+<ol type="1">
+<li>Quelles sont les étudiants avec le nom ayant reçu une mention bien et très bien ?</li>
+<li>Quelle est la répartition des mentions selon le genre des étudiants ?</li>
+</ol>
 </section>
 <section id="exercice-récapitulatif-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
 <h2>Exercice récapitulatif</h2>
+<p>Les étudiants avec le nom ayant reçu une mention bien et très bien</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">conn =</span> db,</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="st">  SELECT *, (titu - team_played_after) AS diff</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM (</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT team, </span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="st">           titu,</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="st">           RANK() OVER (ORDER BY titu DESC) AS rank,</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="st">           LAG(titu) OVER (ORDER BY titu) AS team_played_after</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM (</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="st">      SELECT team, sum(played) AS titu</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="st">      FROM players</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="st">      GROUP BY team</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="st">    )</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="st">  )"</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  db,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT e.id, e.name, n.note, m.mention</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM etudiants AS e</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="st">    INNER JOIN notes AS n</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="st">      ON e.id = n.etudiant_id</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="st">    INNER JOIN mentions AS m</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="st">      ON n.mention_id = m.id</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="st">    WHERE m.mention IN ('Bien', 'Très bien')"</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="place-aux-jointures" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
-<h2>Place aux jointures !</h2>
-<p>La suite: <a href="https://sql.breant.art/join">Joindre des données</a></p>
+<p>&nbsp;</p>
+<p>Répartition des mentions selon le genre des étudiants</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbGetQuery</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  db,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT e.civility, m.mention, COUNT(*) as nombre</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM etudiants AS e</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="st">    INNER JOIN notes AS n</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="st">      ON e.id = n.etudiant_id</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="st">    INNER JOIN mentions AS m</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="st">      ON n.mention_id = m.id</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="st">    GROUP BY e.civility, m.mention</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="st">    ORDER BY e.civility, m.mention"</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 <img src="../_extensions/ArthurData/lille-univ/logo.jpg" class="slide-logo r-stretch"><div class="footer footer-default">
-<p><strong>Agréger des données, la suite…</strong></p>
+<p><strong>Les jointures</strong></p>
 </div>
 </section></section>
     </div>
