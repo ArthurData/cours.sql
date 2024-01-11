@@ -1,0 +1,285 @@
+---
+title: Welcome to the tidyverse
+format:
+  lille-univ-revealjs: default
+author: Arthur Bréant
+---
+
+# Welcome to the tidyverse
+
+## ![](../www/images/tidyverse.png)
+
+_tidy_ = ordonné, bien rangé 
+
+_verse_ = universe
+
+Initié et développé par Hadley Wickham, le tidyverse est un ensemble de packages autour d'une **philosphie et d'un objectif commun**. 
+
+Celui de faciliter la vie de l'analyste autour d'une syntaxe cohérente et d'outils qui peuvent travailler ensemble.
+
+## Tidyverse
+
+Parmi les packages du tidyverse, nous retrouvons : <font color="#c7254e">`{ggplot2}`</font>, <font color="#c7254e">`{stringr}`</font>, <font color="#c7254e">`{tibble}`</font>, <font color="#c7254e">`{magrittr}`</font> et notamment <font color="#c7254e">`{dplyr}`</font>. 
+ 
+Celui qui nous intéresse aujourd'hui, c'est <font color="#c7254e">`{dplyr}`</font> ! 
+
+Ça tombe bien, nous l'avons installé précédemment 😉 
+
+## ![](../www/images/dplyr.png)
+
+<font color="#c7254e">`{dplyr}`</font> est un package qui permet la manipulation de données. 
+
+Les fonctions de <font color="#c7254e">`{dplyr}`</font> s'utilisent sur des données _tidy_. Il est donc parfait pour être utilisé sur nos tables !
+
+Mais avant ...
+
+## ![](../www/images/pipe.png)
+
+Le pipe du package <font color="#c7254e">`maggritr`</font> ! Très pratique, il colle parfaitement avec la syntaxe de <font color="#c7254e">`dplyr`</font>. 
+
+Il permet notamment de mieux structurer son code et d'éviter de se surcharger de variables locales... 
+
+Un exemple : 
+
+```{r}
+#| echo: false
+#| eval: false
+library(dplyr)
+# Sans pipe :
+head(mtcars)
+
+# Avec le pipe :
+mtcars %>% head()
+```
+
+## Le pipe 
+
+![](../www/images/pipegramar.png){fig-align="center"}
+
+\ 
+
+💡 Une petite astuce, raccourci clavier : <font color="#c7254e">`Ctrl + Shift + M`</font>
+
+# Quel est le rapport avec le SQL ?
+
+## C'est magique !
+
+## Sélectionner des données
+
+Nous l'avons vu, pour sélectionner des données en SQL, on utilise le <font color="#c7254e">`SELECT`</font>
+
+```{sql echo=TRUE, eval=FALSE}
+SELECT *
+FROM table
+```
+
+Avec  <font color="#c7254e">`{dplyr}`</font>, on va utiliser la fonction <font color="#c7254e">`select`</font>
+
+```{r}
+#| echo: true
+#| eval: false
+iris %>%
+  select(Species)
+```
+
+Comment l'utiliser avec notre table players stockée dans notre base de données ? 
+
+```{r}
+#| echo: false
+#| eval: true
+library(readr)
+library(DBI)
+library(dplyr)
+players <- read_csv(
+  "https://raw.githubusercontent.com/ArthurData/data/main/players.csv",
+  na = "",
+  col_types = cols(
+    birth_date = col_character()
+  )
+)
+db <- dbConnect(RSQLite::SQLite(), ":memory:")
+dbWriteTable(
+  db,
+  "players",
+  players,
+  field.types = c(birth_date = "date")
+)
+```
+
+
+```{r}
+#| echo: true
+#| eval: true
+players_db <- tbl(db, "players")
+
+players_db
+```
+
+## Sélectionner des données
+
+Sélectionnons les colonnes _id_, _name_,  _club_ de la table <font color="#c7254e">`players`</font> :
+
+::: {.columns}
+::: {.column width="50%"}
+::: {.fragment .fade-in-then-semi-out}
+```{r}
+#| echo: true
+#| eval: true
+dbGetQuery(
+  conn = db, 
+  "SELECT id, name, club 
+  FROM players
+  LIMIT 10"
+)
+```
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment .fade-in-then-semi-out}
+```{r}
+#| echo: true
+#| eval: true
+players_db %>%
+  select(id, name, club)
+```
+:::
+:::
+:::
+
+\ 
+
+
+::: {.fragment .fade-in-then-semi-out}
+
+Pour récupérer toutes les lignes, on <font color="#c7254e">`collect()`</font>
+```{r}
+#| echo: true
+#| eval: true
+players_db %>%
+  select(id, name, club) %>%
+  collect()
+```
+:::
+
+## Sélectionner des données
+
+Mais où est la magie ?
+
+::: {.fragment .fade-in}
+```{r}
+#| echo: true
+#| eval: true
+players_db %>%
+  select(id, name, club) %>%
+  show_query()
+```
+
+\ 
+
+En arrière-plan, <font color="#c7254e">`{dplyr}`</font> réalise et construit des requêtes SQL.
+:::
+
+## Filtrer des données
+
+Affichons le nom des joueurs qui jouent en position de milieu de terrain :
+
+::: {.columns}
+::: {.column width="50%"}
+::: {.fragment .fade-in-then-semi-out}
+```{r}
+#| echo: true
+#| eval: true
+dbGetQuery(
+  conn = db, 
+  "SELECT name 
+  FROM players 
+  WHERE position = 'Milieu'
+  LIMIT 10"
+)
+```
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment .fade-in-then-semi-out}
+```{r}
+#| echo: true
+#| eval: true
+players_db %>%
+  filter(position == "Milieu")
+```
+:::
+:::
+:::
+
+
+::: {.fragment .fade-in}
+
+```{r}
+#| echo: true
+#| eval: true
+players_db %>%
+  filter(position == "Milieu") %>%
+  show_query()
+```
+:::
+
+## Filtrer des données
+
+Sélectionnons les milieux de terrain avec plus de 30 sélections :
+
+::: {.columns}
+::: {.column width="50%"}
+::: {.fragment .fade-in-then-semi-out}
+```{r}
+#| echo: true
+#| eval: true
+dbGetQuery(
+  conn = db, 
+  "SELECT name, position, played
+  FROM players 
+  WHERE position = 'Milieu' AND played > 30
+  LIMIT 10"
+)
+```
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment .fade-in-then-semi-out}
+```{r}
+#| echo: true
+#| eval: true
+players_db %>%
+  filter(
+    position == "Milieu" & played > 30
+  )
+```
+:::
+:::
+:::
+
+
+::: {.fragment .fade-in}
+
+```{r}
+#| echo: true
+#| eval: true
+players_db %>%
+  filter(position == "Milieu" & played > 30) %>%
+  show_query()
+```
+:::
+
+## Les principales fonctions
+
+Les principales fonctions de <font color="#c7254e">`dplyr`</font> sont les suivantes :
+
+- <font color="#188630">`select()`</font>
+- <font color="#188630">`mutate()`</font>
+- <font color="#188630">`filter()`</font>
+- <font color="#188630">`summarise()`</font>
+- <font color="#188630">`arrange()`</font>
+
+Pour plus d'informations, c'est par [ici !](https://dplyr.tidyverse.org/index.html)
