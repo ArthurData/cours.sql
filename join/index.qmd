@@ -233,7 +233,7 @@ dbWriteTable(db, "notes", notes)
 
 2 questions :
 
-1) Quelles sont les étudiants avec le nom ayant reçu une mention bien et très bien ?
+1) Qui sont les étudiants avec le nom ayant reçu une mention bien et très bien ?
 2) Quelle est la répartition des mentions selon le genre des étudiants ?
 
 ## Exercice récapitulatif

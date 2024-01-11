@@ -121,7 +121,7 @@ dbGetQuery(
 ## Réaliser des sous-requêtes
 
 
-Calculons la somme de titularisations par `team`, puis calculer la moyenne des titularisations par `team`.
+Calculons la somme de titularisations par `team`, puis calculer la moyenne des titularisations.
 
 ```{r}
 #| echo: true
