@@ -1,0 +1,182 @@
+---
+title: Examen
+format: 
+  html:
+    toc: true
+    toc-title: Navigation
+    toc-depth: 4
+    theme: darkly
+---
+
+Bonjour à tous, 
+
+Répondez aux questions, **en SQL** dans **un fichier Quarto** ou **Rmarkdown**, que vous **nommerez à votre nom**.
+
+Pensez à ajouter le numéro de la question.
+
+Lorsque vous avez terminé : 
+
+- envoyez moi votre script `.qmd` ou `.rmd`, 
+- votre fichier `.html` compilé,
+
+à mon adresse mail : **breant.arthur@gmail.com**
+
+Je reste disponible si vous avez des questions.
+
+Bon courage !
+
+## Consignes
+
+Pensez à charger les packages nécessaires pour répondre aux questions !
+
+### Video Game Sales
+
+#### Télécharger le jeu de données
+
+```{r}
+#| echo: true
+#| eval: false
+url <- paste0("https://raw.githubusercontent.com/ArthurData/data/main/vgsales/")
+games <- read.csv(paste0(url, "games.csv"), sep = ",", na.strings = "")
+platforms <- read.csv(paste0(url, "platforms.csv"), sep = ",", na.strings = "")
+```
+
+Vous venez de créer deux _dataframes_ `games` et `platforms`, qui contiennent les données sur lesquelles vous allez travailler.
+
+Pour obtenir un petit aperçu des données :
+
+#### `games`
+
+```{r}
+#| echo: true
+#| eval: false
+head(games)
+```
+
+_Informations sur les colonnes_
+
+- _ID_ : identifiant du jeu 
+
+- _Name_ : Nom du jeu
+
+- *Platform_id* : Identifiant de la plateforme
+
+- _Year_ : Année de sortie
+
+- _Genre_ : Type de jeu
+ 
+- _Publisher_ : Éditeur
+
+- *NA_Sales* : Ventes aux États-Unis
+ 
+- *EU_Sales* : Ventes en Europe
+ 
+- *JP_Sales* : Ventes au Japon
+
+- *Other_Sales* : Ventes dans le reste du monde
+
+- *Total_Sales* : Ventes totales
+
+Dans le *dataframe* `games`, une ligne = un jeu vidéo.
+
+#### `platforms`
+
+```{r}
+#| echo: true
+#| eval: false
+head(platforms)
+```
+
+_Informations sur les colonnes_
+
+- _ID_ : Identifiant de la plateforme
+
+- _Name_ : Nom de la plateforme
+
+A vous de jouer !
+
+#### Question 1
+
+Créer une base de données : soit en mémoire (avec `:memory`), soit avec SQLite.
+
+Ajouter ces deux tables (`games` et `platforms`) dans votre base de données.
+
+#### Question 2
+
+Sélectionner tous les jeux ayant réalisé plus de 10M de ventes aux États-Unis.
+
+#### Question 3
+
+Sélectionner tous les jeux créés entre 2000 et 2003 et dont le `Publisher` est Ubisoft.
+
+#### Question 4
+
+Sélectionner les jeux dont le `Publisher` est manquant.
+
+#### Question 5
+
+Sélectionner les jeux avec le `Publisher` « Nintendo » dont les ventes en Europe sont supérieures à 10M **ou** les jeux du publisher « Sony Computer Entertainment » dont les ventes au Japon sont supérieures à 3M.
+
+#### Question 6
+
+Combien de jeux contiennent le mot « Mario » dans le titre ?
+
+#### Question 7
+
+Sélectionner tous les jeux du genre : Sports, Action, Simulation et qui ont entre 4M et 8M de vente aux États-Unis.
+
+#### Question 8
+
+Parmi les jeux qui contiennent « FIFA » dans le titre, quel est celui qui a réalisé le plus de ventes en Europe.
+
+#### Question 9
+
+Calculer la somme des ventes au Japon et en Europe par `Publisher`.
+
+#### Question 10
+
+Créer une nouvelle colonne nommée « gender2 » qui contient :
+
+- « Jeu de course » si le genre est « Racing »
+
+- « Jeu de rôle » si le genre est « Role-Playing »
+
+- « Jeu de combat » si le genre est « Action », « Simulation » et « Fighting »
+
+- « Autres types » pour les autres genres
+
+Calculer la moyenne des ventes au Japon avec la nouvelle catégorie de jeu « gender2 ».
+
+#### Question 11
+
+Créer une nouvelle colonne nommée « BestSellers » qui contient :
+
+- « Pokémon » si le titre contient « Pokemon »
+
+- « Mario » si le titre contient « Mario »
+
+- « Call of Duty » si le titre contient « Call of Duty »
+
+Parmi les bestsellers, quelle est la somme des ventes aux États-Unis ? Conserver les bestsellers avec plus 100M de ventes.
+
+#### Question 12
+
+Quels sont les plateformes qui ont généré le plus de ventes totales ? Conserver uniquement les 3 premiers.
+
+#### Question 13
+
+Quelle est l’année de première parution d’un jeu par plateforme. Trier les jeux, des plus anciens, aux plus récents.
+
+#### Question 14
+
+Calculer les ventes totales par plateforme. Afficher le nom de la platforme et conserver celles entre 100M et 300M de ventes, ou celles avec plus de 1000M de ventes.
+
+#### Question 15
+
+Identifiez les genres de jeux qui ont connu une augmentation significative des ventes totales aux États-Unis, par rapport à l'année suivante. 
+
+Indiquer le genre de jeu, l'année et la différence avec l'année suivante. 
+
+#### Question 16
+
+Identifiez les jeux publiés par des éditeurs ayant une moyenne de ventes totales en Europe supérieure à la moyenne générale des ventes en Europe. Affichez le nom du jeu, l'éditeur, et les ventes totales en Europe.

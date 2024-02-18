@@ -66,6 +66,11 @@ jobs:
         with:
           path: tidyverse/index.qmd
 
+      - name: Render exam html
+        uses: quarto-dev/quarto-actions/render@v2
+        with:
+          path: examen/index.qmd
+
       - name: Create CNAME to _slides folder
         run: echo 'sql.breant.art' > _slides/CNAME
 
