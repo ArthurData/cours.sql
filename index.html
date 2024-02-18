@@ -8,7 +8,7 @@
 <link href="index_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="index_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.450">
+  <meta name="generator" content="quarto-1.4.550">
 
   <meta name="author" content="Arthur Bréant">
   <title>Introduction au SQL avec R</title>
@@ -31,7 +31,7 @@
     }
     /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -223,7 +223,8 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -422,13 +423,13 @@
 </section>
 <section id="section" class="slide level2 center-section" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
 <h2></h2>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-panel" data-layout="[ 33, 33, 35 ]">
+<div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 32.7%;justify-content: center;">
 <p>Mars 2016 à Déc. 2017</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="www/images/frizbiz.png"></p>
+<p><img data-src="www/images/frizbiz.png" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
 </div>
@@ -436,7 +437,7 @@
 <p>Janv. 2018 à Sept.&nbsp;2021</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="www/images/critizr.png"></p>
+<p><img data-src="www/images/critizr.png" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
 </div>
@@ -444,7 +445,7 @@
 <p>Octobre 2021 à aujourd’hui</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="www/images/thinkr.png"></p>
+<p><img data-src="www/images/thinkr.png" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
 </div>
@@ -463,7 +464,7 @@
 <section id="section-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
 <h2></h2>
 
-<img data-src="www/images/questions.png" class="r-stretch quarto-figure-center"></section></section>
+<img data-src="www/images/questions.png" class="quarto-figure quarto-figure-center r-stretch"></section></section>
 <section>
 <section id="le-sql-cest-quoi" class="title-slide slide level1 center" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
 <h1>Le SQL, c’est quoi ?</h1>
@@ -492,7 +493,7 @@
 <section id="section-2" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
 <h2></h2>
 
-<img data-src="www/images/SQLtoR.png" class="r-stretch quarto-figure-center"></section>
+<img data-src="www/images/SQLtoR.png" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="une-base-de-données" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
 <h2>Une base de données ?</h2>
 <p>Une base de données est un <strong>ensemble de données stockées</strong> qui permet de <strong>sauvegarder</strong> des informations ou une activité. Ces informations sont stockées dans plusieurs <strong>tables</strong> (ou tableaux).</p>
@@ -521,11 +522,11 @@
 <section id="section-3" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
 <h2></h2>
 
-<img data-src="www/images/table.png" class="r-stretch quarto-figure-center"></section>
+<img data-src="www/images/table.png" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="section-4" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
 <h2></h2>
 
-<img data-src="www/images/tables.png" class="r-stretch quarto-figure-center"></section>
+<img data-src="www/images/tables.png" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="système-de-gestion-de-base-de-données" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
 <h2>Système de Gestion de Base de Données</h2>
 <p>Une table stocke des données.</p>
@@ -579,15 +580,15 @@
 <p>Pour apprendre, nous utiliserons le jeu de données <a href="https://github.com/ArthurData/data/blob/main/players.csv">players.csv</a></p>
 <p>Vous pouvez télécharger les données avec la commande suivante :</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("readr")</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>players <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/ArthurData/data/main/players.csv"</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">na =</span> <span class="st">""</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_types =</span> <span class="fu">cols</span>(</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">birth_date =</span> <span class="fu">col_character</span>()</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("readr")</span></span>
+<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a>players <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb1-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/ArthurData/data/main/players.csv"</span>,</span>
+<span id="cb1-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">na =</span> <span class="st">""</span>,</span>
+<span id="cb1-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_types =</span> <span class="fu">cols</span>(</span>
+<span id="cb1-7"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">birth_date =</span> <span class="fu">col_character</span>()</span>
+<span id="cb1-8"><a href="" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-9"><a href="" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="players" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
@@ -595,9 +596,9 @@
 <p>Le dataframe <font color="#c7254e"><code>players</code></font> contient la liste des joueurs de football ayant participé à la coupe du monde en 2014. Il est parfait pour nous entrainer au SQL.</p>
 <p>Vous pouvez le consulter avec la commande :</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ceci est un commentaire</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># La fonction View() commence avec un V majuscule !</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(players)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Ceci est un commentaire</span></span>
+<span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># La fonction View() commence avec un V majuscule !</span></span>
+<span id="cb2-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(players)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="players-1" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
@@ -624,9 +625,11 @@
 <section id="lets-go" class="slide level2" data-background-image="sidebar.png" data-background-size="5% 100%" data-background-position="left">
 <h2>Let’s go !</h2>
 <p>La suite : <a href="https://sql.breant.art/select">Sélectionner des données</a></p>
-
-<img src="_extensions/ArthurData/lille-univ/logo.jpg" class="slide-logo r-stretch"><div class="footer footer-default">
+<div class="quarto-auto-generated-content">
+<p><img src="_extensions/ArthurData/lille-univ/logo.jpg" class="slide-logo"></p>
+<div class="footer footer-default">
 <p><strong>Introduction au SQL avec R</strong></p>
+</div>
 </div>
 </section></section>
     </div>
@@ -655,7 +658,6 @@
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
-'smaller': false,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -954,10 +956,9 @@
         // clear code selection
         e.clearSelection();
       });
-      function tippyHover(el, contentFn) {
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
-          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -967,8 +968,17 @@
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start'
+          placement: 'bottom-start',
         };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 
