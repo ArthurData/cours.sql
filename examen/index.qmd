@@ -97,7 +97,7 @@ A vous de jouer !
 
 #### Question 1
 
-Créer une base de données : soit en mémoire (avec `:memory`), soit avec SQLite.
+Créer une base de données : soit en mémoire (avec `:memory:`), soit avec SQLite.
 
 Ajouter ces deux tables (`games` et `platforms`) dans votre base de données.
 
